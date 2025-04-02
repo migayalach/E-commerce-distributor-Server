@@ -7,7 +7,14 @@ import { UserModule } from './user/user.module';
 import { FavoriteModule } from './favorite/favorite.module';
 
 @Module({
-  imports: [SubscribeModule, CategoryModule, ProductsModule, LevelModule, UserModule, FavoriteModule],
+  imports: [
+    SubscribeModule,
+    CategoryModule,
+    ProductsModule,
+    LevelModule,
+    UserModule,
+    FavoriteModule,
+  ],
   controllers: [],
   providers: [],
 })
