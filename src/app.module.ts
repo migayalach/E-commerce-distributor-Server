@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -19,6 +20,8 @@ import { ConfigModule } from '@nestjs/config';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: true,
+      sortSchema: true,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     SubscribeModule,
     CategoryModule,
