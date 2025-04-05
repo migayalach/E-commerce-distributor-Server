@@ -1,0 +1,20 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateSubscriptionDto {
+  email: String!
+}
+
+type Mutation {
+  createSubscribe(dataInput: CreateSubscriptionDto!): Subscribe!
+}
+
+type Query {
+  getSubscribe: [Subscribe!]!
+}
+
+type Subscribe {
+  _id: ID!
+  email: String!
+}
