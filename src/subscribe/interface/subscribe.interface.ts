@@ -1,4 +1,4 @@
-export interface dataSubs {
-  idSubscription: string;
+export interface DataSubs {
+  _id: string;
   email: string;
 }
