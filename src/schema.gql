@@ -6,12 +6,24 @@ input CreateSubscriptionDto {
   email: String!
 }
 
+type Info {
+  count: Int!
+  next: Int
+  pages: Int!
+  prev: Int
+}
+
 type Mutation {
   createSubscribe(dataInput: CreateSubscriptionDto!): Subscribe!
 }
 
+type PagSubsResponse {
+  info: Info!
+  results: [Subscribe!]!
+}
+
 type Query {
-  getSubscribe: [Subscribe!]!
+  getSubscribe(page: Int): PagSubsResponse!
 }
 
 type Subscribe {
