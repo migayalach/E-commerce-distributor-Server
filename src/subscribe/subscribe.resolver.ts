@@ -1,15 +1,19 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { SubscribeService } from './subscribe.service';
 import { Subscribe } from './schema/subscribe.schema';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
+import { PagSubsResponse } from './dto/pag-subs-res.dto';
+import { Response } from '@interface/response.results.interface';
 
 @Resolver()
 export class SubscribeResolver {
   constructor(private readonly subscribeService: SubscribeService) {}
 
-  @Query(() => [Subscribe])
-  async getSubscribe(): Promise<any> {
-    return await this.subscribeService.getAllSubs();
+  @Query(() => PagSubsResponse)
+  async getSubscribe(
+    @Args('page', { type: () => Int, nullable: true }) page: number = 1,
+  ): Promise<Response> {
+    return await this.subscribeService.getAllSubs(page);
   }
 
   @Mutation(() => Subscribe)
