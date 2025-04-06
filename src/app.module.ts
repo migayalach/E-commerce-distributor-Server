@@ -13,9 +13,9 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     MongooseModule.forRoot(
-      process.env.DATABASE_LOCAL || 'mongodb://localhost/distributor',
+      process.env.DATABASE_DEPLOY || 'mongodb://localhost/distributor',
     ),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
