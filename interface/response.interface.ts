@@ -10,3 +10,15 @@ export abstract class PaginatedResponse<T> {
   @Field(() => [Subscribe])
   results: T[];
 }
+
+@ObjectType()
+export class ResponseInfo {
+  @Field()
+  message: string;
+
+  @Field()
+  code: string;
+
+  @Field()
+  value: string;
+}
