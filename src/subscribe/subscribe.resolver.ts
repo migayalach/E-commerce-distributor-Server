@@ -1,9 +1,10 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { SubscribeService } from './subscribe.service';
-import { Subscribe } from './schema/subscribe.schema';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { PagSubsResponse } from './dto/pag-subs-res.dto';
 import { Response } from '@interface/response.results.interface';
+import { SubscribeResponse } from './interface/responseData.interface';
+import { RespInfo } from '@interface/data.info.interface';
 
 @Resolver()
 export class SubscribeResolver {
@@ -16,10 +17,19 @@ export class SubscribeResolver {
     return await this.subscribeService.getAllSubs(page);
   }
 
-  @Mutation(() => Subscribe)
+  @Mutation(() => SubscribeResponse)
   async createSubscribe(
     @Args('dataInput') dataInput: CreateSubscriptionDto,
-  ): Promise<any> {
-    return this.subscribeService.addSubEmail(dataInput);
+  ): Promise<RespInfo> {
+    return await this.subscribeService.addSubEmail(dataInput);
+  }
+
+  @Mutation(() => SubscribeResponse)
+  async deleteSubscribe(
+    @Args('email', { type: () => String, nullable: false })
+    email: string,
+  ): Promise<RespInfo> {
+    const data = await this.subscribeService.cancelSub(email);
+    return data;
   }
 }
