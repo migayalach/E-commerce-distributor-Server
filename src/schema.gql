@@ -14,7 +14,8 @@ type Info {
 }
 
 type Mutation {
-  createSubscribe(dataInput: CreateSubscriptionDto!): Subscribe!
+  createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
+  deleteSubscribe(email: String!): SubscribeResponse!
 }
 
 type PagSubsResponse {
@@ -29,4 +30,11 @@ type Query {
 type Subscribe {
   _id: ID!
   email: String!
+}
+
+type SubscribeResponse {
+  code: String!
+  info: Subscribe!
+  message: String!
+  value: String!
 }
