@@ -18,6 +18,10 @@ input CreateCategoryDto {
   nameCategory: String!
 }
 
+input CreateLevelDto {
+  nameLevel: String!
+}
+
 input CreateSubscriptionDto {
   email: String!
 }
@@ -29,8 +33,21 @@ type Info {
   prev: Int
 }
 
+type Level {
+  _id: ID!
+  nameLevel: String!
+}
+
+type LevelResponse {
+  code: String!
+  info: Level!
+  message: String!
+  value: String!
+}
+
 type Mutation {
   createCategory(infoCategory: CreateCategoryDto!): CategoryResponse!
+  createLevel(dataLevel: CreateLevelDto!): LevelResponse!
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
   deleteSubscribe(email: String!): SubscribeResponse!
   removeCategory(idCategory: String!): CategoryResponse!
@@ -42,12 +59,18 @@ type PagCategoryResponse {
   results: [Category!]!
 }
 
+type PagLevelResponse {
+  info: Info!
+  results: [Level!]!
+}
+
 type PagSubsResponse {
   info: Info!
   results: [Subscribe!]!
 }
 
 type Query {
+  getAllLevel(page: Int): PagLevelResponse!
   getCategory(page: Int): PagCategoryResponse!
   getIdCategory(idCategory: String!): Category!
   getSubscribe(page: Int): PagSubsResponse!
