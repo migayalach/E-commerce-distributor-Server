@@ -3,8 +3,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SubscribeModule } from './subscribe/subscribe.module';
 import { CategoryModule } from './category/category.module';
+import { LevelModule } from './level/level.module';
 // import { ProductsModule } from './products/products.module';
-// import { LevelModule } from './level/level.module';
 // import { UserModule } from './user/user.module';
 // import { FavoriteModule } from './favorite/favorite.module';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -27,8 +27,8 @@ import { join } from 'path';
     }),
     SubscribeModule,
     CategoryModule,
+    LevelModule,
     // ProductsModule,
-    // LevelModule,
     // UserModule,
     // FavoriteModule,
   ],
