@@ -7,7 +7,7 @@ import { clearSubs } from 'helpers/clearData.helpers';
 import { ApolloError } from 'apollo-server-express';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { DataSubs } from './interface/subscribe.interface';
-import { RespInfo } from '@interface/data.info.interface';
+import { ResSubscription } from '@interface/data.info.interface';
 
 @Injectable()
 export class SubscribeService {
@@ -37,7 +37,9 @@ export class SubscribeService {
     }
   }
 
-  async addSubEmail(dataInput: CreateSubscriptionDto): Promise<RespInfo> {
+  async addSubEmail(
+    dataInput: CreateSubscriptionDto,
+  ): Promise<ResSubscription> {
     try {
       const existingUser = await this.getEmailSubs(dataInput.email);
       if (existingUser) {
@@ -62,7 +64,7 @@ export class SubscribeService {
     }
   }
 
-  async cancelSub(email: string): Promise<RespInfo> {
+  async cancelSub(email: string): Promise<ResSubscription> {
     try {
       const existEmail = await this.getEmailSubs(email);
       if (!existEmail) {
