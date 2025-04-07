@@ -4,7 +4,7 @@ import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { PagSubsResponse } from './dto/pag-subs-res.dto';
 import { Response } from '@interface/response.results.interface';
 import { SubscribeResponse } from './interface/responseData.interface';
-import { RespInfo } from '@interface/data.info.interface';
+import { ResSubscription } from '@interface/data.info.interface';
 
 @Resolver()
 export class SubscribeResolver {
@@ -20,7 +20,7 @@ export class SubscribeResolver {
   @Mutation(() => SubscribeResponse)
   async createSubscribe(
     @Args('dataInput') dataInput: CreateSubscriptionDto,
-  ): Promise<RespInfo> {
+  ): Promise<ResSubscription> {
     return await this.subscribeService.addSubEmail(dataInput);
   }
 
@@ -28,7 +28,7 @@ export class SubscribeResolver {
   async deleteSubscribe(
     @Args('email', { type: () => String, nullable: false })
     email: string,
-  ): Promise<RespInfo> {
+  ): Promise<ResSubscription> {
     const data = await this.subscribeService.cancelSub(email);
     return data;
   }

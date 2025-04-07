@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SubscribeModule } from './subscribe/subscribe.module';
-// import { CategoryModule } from './category/category.module';
+import { CategoryModule } from './category/category.module';
 // import { ProductsModule } from './products/products.module';
 // import { LevelModule } from './level/level.module';
 // import { UserModule } from './user/user.module';
@@ -26,7 +26,7 @@ import { join } from 'path';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     SubscribeModule,
-    // CategoryModule,
+    CategoryModule,
     // ProductsModule,
     // LevelModule,
     // UserModule,

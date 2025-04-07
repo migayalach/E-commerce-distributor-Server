@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Category {
+  _id: ID!
+  nameCategory: String!
+}
+
+type CategoryResponse {
+  code: String!
+  info: Category!
+  message: String!
+  value: String!
+}
+
+input CreateCategoryDto {
+  nameCategory: String!
+}
+
 input CreateSubscriptionDto {
   email: String!
 }
@@ -14,8 +30,16 @@ type Info {
 }
 
 type Mutation {
+  createCategory(infoCategory: CreateCategoryDto!): CategoryResponse!
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
   deleteSubscribe(email: String!): SubscribeResponse!
+  removeCategory(idCategory: String!): CategoryResponse!
+  updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
+}
+
+type PagCategoryResponse {
+  info: Info!
+  results: [Category!]!
 }
 
 type PagSubsResponse {
@@ -24,6 +48,8 @@ type PagSubsResponse {
 }
 
 type Query {
+  getCategory(page: Int): PagCategoryResponse!
+  getIdCategory(idCategory: String!): Category!
   getSubscribe(page: Int): PagSubsResponse!
 }
 
@@ -37,4 +63,9 @@ type SubscribeResponse {
   info: Subscribe!
   message: String!
   value: String!
+}
+
+input UpdateCategoryDto {
+  idCategory: ID!
+  nameCategory: String
 }
