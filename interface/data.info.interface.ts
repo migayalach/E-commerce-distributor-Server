@@ -1,4 +1,5 @@
 import { DataCategory } from 'src/category/interface/category.interface';
+import { DataLevel } from 'src/level/interface/level.interface';
 import { DataSubs } from 'src/subscribe/interface/subscribe.interface';
 
 export interface RespInfoBase {
@@ -13,4 +14,8 @@ export interface ResSubscription extends RespInfoBase {
 
 export interface ResCategory extends RespInfoBase {
   info: DataCategory;
+}
+
+export interface ResLevel extends RespInfoBase {
+  info: DataLevel;
 }
