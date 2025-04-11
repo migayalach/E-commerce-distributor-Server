@@ -26,7 +26,10 @@ export class CategoryService {
   }
 
   async thereIsIdCategory(idCategory: string): Promise<DataCategory> {
-    const data = await this.categoryModel.findById(idCategory).select('-__v');
+    const data = await this.categoryModel
+      .findById(idCategory)
+      .select('-__v')
+      .lean();
     if (!data) {
       throw new ApolloError('This category does not exist.');
     }

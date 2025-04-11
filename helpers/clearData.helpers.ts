@@ -2,6 +2,10 @@ import { DataSubs } from 'src/subscribe/interface/subscribe.interface';
 import { DataCategory } from 'src/category/interface/category.interface';
 import { parseIdObject } from './auxFunction.helpers';
 import { DataLevel } from 'src/level/interface/level.interface';
+import {
+  DataOriginProduct,
+  DataProductRes,
+} from 'src/products/interface/product.interface';
 
 export const clearSubs = (data: DataSubs[]) => {
   const response = data.map(({ _id, email }) => ({
@@ -39,4 +43,20 @@ export const clearLevel = (data: DataLevel[]) => {
     nameLevel,
   }));
   return response;
+};
+
+export const clearDataProduct = (
+  product: DataOriginProduct,
+  category: DataCategory,
+): DataProductRes => {
+  const data = {
+    _id: product._id.toString(),
+    idCategory: category._id,
+    nameCategory: category.nameCategory,
+    nameProduct: product.nameProduct,
+    price: product.price,
+    stock: product.stock,
+    state: product.state,
+  };
+  return data;
 };
