@@ -4,7 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SubscribeModule } from './subscribe/subscribe.module';
 import { CategoryModule } from './category/category.module';
 import { LevelModule } from './level/level.module';
-// import { ProductsModule } from './products/products.module';
+import { ProductsModule } from './products/products.module';
 // import { UserModule } from './user/user.module';
 // import { FavoriteModule } from './favorite/favorite.module';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -24,11 +24,12 @@ import { join } from 'path';
       playground: true,
       sortSchema: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      debug: true,
     }),
     SubscribeModule,
     CategoryModule,
     LevelModule,
-    // ProductsModule,
+    ProductsModule,
     // UserModule,
     // FavoriteModule,
   ],
