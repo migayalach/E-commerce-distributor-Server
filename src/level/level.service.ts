@@ -33,8 +33,6 @@ export class LevelService {
       if (error instanceof ApolloError) {
         throw error;
       }
-      console.log(error);
-
       throw new ApolloError(
         'An unexpected error occurred while creating the new level.',
         'INTERNAL_ERROR',
