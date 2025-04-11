@@ -22,6 +22,13 @@ input CreateLevelDto {
   nameLevel: String!
 }
 
+input CreateProductDto {
+  idCategory: ID!
+  nameProduct: String!
+  price: Float!
+  stock: Float!
+}
+
 input CreateSubscriptionDto {
   email: String!
 }
@@ -48,10 +55,13 @@ type LevelResponse {
 type Mutation {
   createCategory(infoCategory: CreateCategoryDto!): CategoryResponse!
   createLevel(dataLevel: CreateLevelDto!): LevelResponse!
+  createProduct(dataProduct: CreateProductDto!): ProductResponse!
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
+  deleteProduct(idProduct: String!): ProductResponse!
   deleteSubscribe(email: String!): SubscribeResponse!
   removeCategory(idCategory: String!): CategoryResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
+  updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
 }
 
 type PagCategoryResponse {
@@ -64,15 +74,39 @@ type PagLevelResponse {
   results: [Level!]!
 }
 
+type PagProductResponse {
+  info: Info!
+  results: [ProductModel!]!
+}
+
 type PagSubsResponse {
   info: Info!
   results: [Subscribe!]!
+}
+
+type ProductModel {
+  _id: ID!
+  idCategory: ID!
+  nameCategory: String!
+  nameProduct: String!
+  price: Float!
+  state: Boolean
+  stock: Float!
+}
+
+type ProductResponse {
+  code: String!
+  info: ProductModel!
+  message: String!
+  value: String!
 }
 
 type Query {
   getAllLevel(page: Int): PagLevelResponse!
   getCategory(page: Int): PagCategoryResponse!
   getIdCategory(idCategory: String!): Category!
+  getIdProduct(idProduct: String!): ProductModel!
+  getProduct(page: Int): PagProductResponse!
   getSubscribe(page: Int): PagSubsResponse!
 }
 
@@ -91,4 +125,13 @@ type SubscribeResponse {
 input UpdateCategoryDto {
   idCategory: ID!
   nameCategory: String
+}
+
+input UpdateProductDto {
+  idCategory: ID!
+  idProduct: ID!
+  nameProduct: String
+  price: Float
+  state: Boolean
+  stock: Float
 }
