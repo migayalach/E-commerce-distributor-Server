@@ -5,7 +5,7 @@ import { SubscribeModule } from './subscribe/subscribe.module';
 import { CategoryModule } from './category/category.module';
 import { LevelModule } from './level/level.module';
 import { ProductsModule } from './products/products.module';
-// import { UserModule } from './user/user.module';
+import { UserModule } from './user/user.module';
 // import { FavoriteModule } from './favorite/favorite.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
@@ -30,7 +30,7 @@ import { join } from 'path';
     CategoryModule,
     LevelModule,
     ProductsModule,
-    // UserModule,
+    UserModule,
     // FavoriteModule,
   ],
   controllers: [],
