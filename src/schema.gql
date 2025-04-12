@@ -14,6 +14,13 @@ type CategoryResponse {
   value: String!
 }
 
+input ChangePasswordDto {
+  _id: ID!
+  newPassword: String!
+  oldPassword: String!
+  repeatNewPassword: String!
+}
+
 input CreateCategoryDto {
   nameCategory: String!
 }
@@ -64,6 +71,7 @@ type LevelResponse {
 }
 
 type Mutation {
+  changePassword(dataPassword: ChangePasswordDto!): ResponseInfo!
   createCategory(infoCategory: CreateCategoryDto!): CategoryResponse!
   createLevel(dataLevel: CreateLevelDto!): LevelResponse!
   createProduct(dataProduct: CreateProductDto!): ProductResponse!
@@ -129,6 +137,12 @@ type Query {
   getProduct(page: Int): PagProductResponse!
   getSubscribe(page: Int): PagSubsResponse!
   getUsers(page: Int): PagUserResponse!
+}
+
+type ResponseInfo {
+  code: String!
+  message: String!
+  value: String!
 }
 
 type Subscribe {
