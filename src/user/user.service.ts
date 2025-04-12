@@ -14,6 +14,8 @@ import {
 import { clearDataUser } from 'helpers/clearData.helpers';
 import { response } from '@utils/response.util';
 import { ResUser } from '@interface/data.info.interface';
+import * as bcrypt from 'bcrypt';
+import { saltOrRounds } from '../../constants';
 
 @Injectable()
 export class UserService {
@@ -100,6 +102,7 @@ export class UserService {
       const data = new this.userModel({
         ...dataUser,
         idLevel: new Types.ObjectId(dataUser.idLevel),
+        password: await bcrypt.hash(dataUser.password, saltOrRounds),
       });
       await data.save();
       const userData: DataUserRes = await this.getIdUser(String(data._id));
