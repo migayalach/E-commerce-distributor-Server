@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
+import { PasswordModule } from './password/password.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { join } from 'path';
     LevelModule,
     ProductsModule,
     UserModule,
+    PasswordModule,
     // FavoriteModule,
   ],
   controllers: [],

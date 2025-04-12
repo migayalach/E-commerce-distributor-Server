@@ -15,7 +15,7 @@ export class ProductsResolver {
 
   @Query(() => PagProductResponse)
   async getProduct(
-    @Args('page', { type: () => Int, nullable: true }) page: number,
+    @Args('page', { type: () => Int, nullable: true }) page: number = 1,
   ): Promise<Response> {
     return await this.productsService.getAllProduct(page);
   }

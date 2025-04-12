@@ -8,6 +8,7 @@ import { Level, LevelSchema } from './schema/level.schema';
   imports: [
     MongooseModule.forFeature([{ name: Level.name, schema: LevelSchema }]),
   ],
+  exports: [LevelService],
   providers: [LevelResolver, LevelService],
 })
 export class LevelModule {}

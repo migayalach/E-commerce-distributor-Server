@@ -33,6 +33,17 @@ input CreateSubscriptionDto {
   email: String!
 }
 
+input CreateUserDto {
+  carnet: String!
+  email: String!
+  idLevel: ID!
+  lastName: String!
+  name: String!
+  password: String!
+  phone: Float!
+  profilePicture: String
+}
+
 type Info {
   count: Int!
   next: Int
@@ -57,11 +68,14 @@ type Mutation {
   createLevel(dataLevel: CreateLevelDto!): LevelResponse!
   createProduct(dataProduct: CreateProductDto!): ProductResponse!
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
+  createUser(dataUser: CreateUserDto!): UserResponse!
   deleteProduct(idProduct: String!): ProductResponse!
   deleteSubscribe(email: String!): SubscribeResponse!
+  deleteUser(idUser: String!): UserResponse!
   removeCategory(idCategory: String!): CategoryResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
+  updateUser(dataUser: UpdateUserDto!): UserResponse!
 }
 
 type PagCategoryResponse {
@@ -82,6 +96,11 @@ type PagProductResponse {
 type PagSubsResponse {
   info: Info!
   results: [Subscribe!]!
+}
+
+type PagUserResponse {
+  info: Info!
+  results: [UserModelGQL!]!
 }
 
 type ProductModel {
@@ -106,8 +125,10 @@ type Query {
   getCategory(page: Int): PagCategoryResponse!
   getIdCategory(idCategory: String!): Category!
   getIdProduct(idProduct: String!): ProductModel!
+  getIdUser(idUser: String!): UserModelGQL!
   getProduct(page: Int): PagProductResponse!
   getSubscribe(page: Int): PagSubsResponse!
+  getUsers(page: Int): PagUserResponse!
 }
 
 type Subscribe {
@@ -134,4 +155,34 @@ input UpdateProductDto {
   price: Float
   state: Boolean
   stock: Float
+}
+
+input UpdateUserDto {
+  carnet: String!
+  email: String!
+  idLevel: ID!
+  idUser: ID!
+  lastName: String!
+  name: String!
+  phone: Float!
+  profilePicture: String
+}
+
+type UserModelGQL {
+  _id: ID!
+  carnet: String!
+  email: String!
+  idLevel: ID!
+  lastName: String!
+  name: String!
+  nameLevel: String!
+  phone: Float!
+  profilePicture: String!
+}
+
+type UserResponse {
+  code: String!
+  info: UserModelGQL!
+  message: String!
+  value: String!
 }

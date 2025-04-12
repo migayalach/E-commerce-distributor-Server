@@ -53,7 +53,7 @@ export class ProductsService {
         .findById(idProduct)
         .select('-__v');
       if (!dataProduct) {
-        throw new ApolloError('This product does not exist.');
+        throw new ApolloError('This product does not exist.', 'NOT_FOUND');
       }
       const dataCategory = await this.categoryService.getIdCategory(
         dataProduct.idCategory.toString(),
@@ -114,7 +114,7 @@ export class ProductsService {
       await this.getIdProduct(dataProduct.idProduct);
       await this.categoryService.thereIsIdCategory(dataProduct.idCategory);
       await this.productModel.findByIdAndUpdate(dataProduct.idProduct, {
-        idCategory: dataProduct.idCategory,
+        idCategory: new Types.ObjectId(dataProduct.idCategory),
         nameProduct: dataProduct.nameProduct,
         price: dataProduct.price,
         stock: dataProduct.stock,
@@ -152,7 +152,7 @@ export class ProductsService {
         throw error;
       }
       throw new ApolloError(
-        'An unexpected error occurred while deleting the  product.',
+        'An unexpected error occurred while deleting the product.',
         'INTERNAL_ERROR',
       );
     }

@@ -6,6 +6,7 @@ import {
   DataOriginProduct,
   DataProductRes,
 } from 'src/products/interface/product.interface';
+import { DataOriginUser, DataUserRes } from 'src/user/interface/user.interface';
 
 export const clearSubs = (data: DataSubs[]) => {
   const response = data.map(({ _id, email }) => ({
@@ -45,6 +46,20 @@ export const clearLevel = (data: DataLevel[]) => {
   return response;
 };
 
+export const clearObjLevel = ({
+  _id,
+  nameLevel,
+}: {
+  _id: string;
+  nameLevel: string;
+}) => {
+  const obj = {
+    _id: parseIdObject(_id),
+    nameLevel,
+  };
+  return obj;
+};
+
 export const clearDataProduct = (
   product: DataOriginProduct,
   category: DataCategory,
@@ -57,6 +72,24 @@ export const clearDataProduct = (
     price: product.price,
     stock: product.stock,
     state: product.state,
+  };
+  return data;
+};
+
+export const clearDataUser = (
+  user: DataOriginUser,
+  level: DataLevel,
+): DataUserRes => {
+  const data = {
+    _id: user._id.toString(),
+    idLevel: level._id,
+    nameLevel: level.nameLevel,
+    name: user.name,
+    lastName: user.lastName,
+    email: user.email,
+    carnet: user.carnet,
+    phone: user.phone,
+    profilePicture: user.profilePicture,
   };
   return data;
 };
