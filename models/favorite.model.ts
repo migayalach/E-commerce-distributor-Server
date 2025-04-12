@@ -1,15 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class ProductModel {
+export class FavoriteModelGQL {
   @Field(() => ID)
-  _id: string;
-
-  @Field(() => ID)
-  idCategory: string;
-
-  @Field()
-  nameCategory: string;
+  idProduct: string;
 
   @Field()
   nameProduct: string;
@@ -19,7 +13,4 @@ export class ProductModel {
 
   @Field()
   stock: number;
-
-  @Field(() => Boolean, { nullable: true })
-  state: boolean;
 }

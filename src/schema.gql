@@ -25,6 +25,11 @@ input CreateCategoryDto {
   nameCategory: String!
 }
 
+input CreateFavoriteDto {
+  idProduct: ID!
+  idUser: ID!
+}
+
 input CreateLevelDto {
   nameLevel: String!
 }
@@ -73,6 +78,7 @@ type LevelResponse {
 type Mutation {
   changePassword(dataPassword: ChangePasswordDto!): ResponseInfo!
   createCategory(infoCategory: CreateCategoryDto!): CategoryResponse!
+  createFavorite(dataFavorite: CreateFavoriteDto!): ResponseInfo!
   createLevel(dataLevel: CreateLevelDto!): LevelResponse!
   createProduct(dataProduct: CreateProductDto!): ProductResponse!
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
@@ -81,6 +87,7 @@ type Mutation {
   deleteSubscribe(email: String!): SubscribeResponse!
   deleteUser(idUser: String!): UserResponse!
   removeCategory(idCategory: String!): CategoryResponse!
+  removeFavorite(idFavorite: String!, idProduct: String!): ResponseInfo!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
   updateUser(dataUser: UpdateUserDto!): UserResponse!

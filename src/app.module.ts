@@ -11,6 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { PasswordModule } from './password/password.module';
+import { CardModule } from './card/card.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { PasswordModule } from './password/password.module';
     UserModule,
     PasswordModule,
     FavoriteModule,
+    CardModule,
   ],
   controllers: [],
   providers: [],

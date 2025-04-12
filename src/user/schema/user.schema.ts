@@ -6,6 +6,10 @@ export class User extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Level', required: true })
   idLevel: string;
 
+  // idFavorite: string;
+
+  // idCard: string;
+
   @Prop({ required: true })
   name: string;
 
