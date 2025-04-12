@@ -5,9 +5,10 @@ import { Model } from 'mongoose';
 import { CreateLevelDto } from './dto/createLevel.dto';
 import { ApolloError } from 'apollo-server-express';
 import { response } from '@utils/response.util';
-import { clearLevel } from 'helpers/clearData.helpers';
+import { clearLevel, clearObjLevel } from 'helpers/clearData.helpers';
 import { Response } from '@interface/response.results.interface';
 import { ResLevel } from '@interface/data.info.interface';
+import { DataLevel } from './interface/level.interface';
 
 @Injectable()
 export class LevelService {
@@ -50,6 +51,27 @@ export class LevelService {
       }
       throw new ApolloError(
         'An unexpected error occurred while loading the levels.',
+        'INTERNAL_SERVER_ERROR',
+      );
+    }
+  }
+
+  async getIdLevel(idLevel: string): Promise<DataLevel> {
+    try {
+      const data = await this.levelModel.findById(idLevel).select('-__v');
+      if (!data) {
+        throw new ApolloError(
+          'Sorry this level does not exist.',
+          'INTERNAL_SERVER_ERROR',
+        );
+      }
+      return clearObjLevel(data);
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while searching the level.',
         'INTERNAL_SERVER_ERROR',
       );
     }
