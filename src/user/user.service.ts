@@ -15,12 +15,16 @@ import { clearDataUser } from 'helpers/clearData.helpers';
 import { response } from '@utils/response.util';
 import { ResUser } from '@interface/data.info.interface';
 import * as bcrypt from 'bcrypt';
-import { saltOrRounds } from '../../constants';
+import { saltOrRounds, urlWithOutImage } from '../../constants';
+import { Cart } from 'src/cart/schema/cart.schema';
+import { Favorite } from 'src/favorite/schema/favorite.schema';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(Cart.name) private cartModel: Model<Cart>,
+    @InjectModel(Favorite.name) private favoriteModel: Model<Favorite>,
     private levelService: LevelService,
   ) {}
 
@@ -101,10 +105,26 @@ export class UserService {
       await this.levelService.getIdLevel(dataUser.idLevel);
       const data = new this.userModel({
         ...dataUser,
+        profilePicture:
+          dataUser.profilePicture === ''
+            ? urlWithOutImage
+            : dataUser.profilePicture,
         idLevel: new Types.ObjectId(dataUser.idLevel),
         password: await bcrypt.hash(dataUser.password, saltOrRounds),
       });
       await data.save();
+      const favoriteAdd = new this.favoriteModel({
+        idUser: data._id,
+      });
+      await favoriteAdd.save();
+      const cartAdd = new this.cartModel({
+        idUser: data._id,
+      });
+      await cartAdd.save();
+      await this.userModel.findByIdAndUpdate(data._id, {
+        idFavorite: favoriteAdd._id,
+        idCart: cartAdd._id,
+      });
       const userData: DataUserRes = await this.getIdUser(String(data._id));
       return {
         message: 'User create successfully.',
@@ -157,6 +177,8 @@ export class UserService {
     try {
       const data = await this.getIdUser(idUser);
       await this.userModel.findByIdAndDelete(idUser);
+      await this.favoriteModel.findByIdAndDelete(data.idFavorite);
+      await this.cartModel.findByIdAndDelete(data.idCart);
       return {
         message: 'User delete successfully.',
         code: '200',
