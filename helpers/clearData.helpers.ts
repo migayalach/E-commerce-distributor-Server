@@ -71,6 +71,7 @@ export const clearDataProduct = (
     nameProduct: product.nameProduct,
     price: product.price,
     stock: product.stock,
+    imageProduct: product.imageProduct,
     state: product.state,
   };
   return data;
@@ -82,6 +83,8 @@ export const clearDataUser = (
 ): DataUserRes => {
   const data = {
     _id: user._id.toString(),
+    idFavorite: user.idFavorite,
+    idCart: user.idCart,
     idLevel: level._id,
     nameLevel: level.nameLevel,
     name: user.name,
@@ -90,6 +93,17 @@ export const clearDataUser = (
     carnet: user.carnet,
     phone: user.phone,
     profilePicture: user.profilePicture,
+  };
+  return data;
+};
+
+export const clearlistFavProduct = (product: DataProductRes) => {
+  const data = {
+    idProduct: product._id.toString(),
+    nameProduct: product.nameProduct,
+    price: product.price,
+    imageProduct: product.imageProduct,
+    stock: product.stock,
   };
   return data;
 };
