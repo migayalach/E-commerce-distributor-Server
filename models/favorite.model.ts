@@ -12,5 +12,8 @@ export class FavoriteModelGQL {
   price: number;
 
   @Field()
+  imageProduct: string;
+
+  @Field()
   stock: number;
 }
