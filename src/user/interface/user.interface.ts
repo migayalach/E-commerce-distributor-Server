@@ -1,6 +1,8 @@
 import { Types } from 'mongoose';
 
 export interface DataUser {
+  idCart: string;
+  idFavorite: string;
   idLevel: string;
   nameLevel: string;
   name: string;
