@@ -12,7 +12,7 @@ import { Favorite, FavoriteSchema } from './schema/favorite.schema';
       { name: Favorite.name, schema: FavoriteSchema },
     ]),
   ],
-  exports: [FavoriteService],
+  exports: [],
   providers: [FavoriteResolver, FavoriteService],
 })
 export class FavoriteModule {}
