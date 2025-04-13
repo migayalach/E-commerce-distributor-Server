@@ -1,26 +1,29 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FavoriteService } from './favorite.service';
-import { CreateFavoriteDto } from './dto/createFavorite.dto';
+import { ActionFavoriteDto } from './dto/actionFavorite.dto';
 import { ResponseInfo } from '@interface/response.interface';
+import { PagFavoriteResponse } from './dto/pag-favorite-res.dto';
+import { RespInfoBase } from '@interface/data.info.interface';
+import { Response } from '@interface/response.results.interface';
 
 @Resolver()
 export class FavoriteResolver {
   constructor(private readonly favoriteService: FavoriteService) {}
 
-  getAllIdFavorite() {}
-
-  @Mutation(() => ResponseInfo)
-  createFavorite(@Args('dataFavorite') dataFavorite: CreateFavoriteDto) {
-    return;
+  @Query(() => PagFavoriteResponse)
+  async getAllIdFavorite(
+    @Args('idFavorite', { type: () => String, nullable: false })
+    idFavorite: string,
+    @Args('page', { type: () => Int, nullable: true })
+    page: number = 1,
+  ): Promise<Response> {
+    return await this.favoriteService.getListFavorites(idFavorite, page);
   }
 
   @Mutation(() => ResponseInfo)
-  removeFavorite(
-    @Args('idFavorite', { type: () => String, nullable: false })
-    idFavorite: string,
-    @Args('idProduct', { type: () => String, nullable: false })
-    idProduct: string,
-  ) {
-    return;
+  async actionFavorite(
+    @Args('dataFavorite') dataFavorite: ActionFavoriteDto,
+  ): Promise<RespInfoBase> {
+    return await this.favoriteService.actionFavorite(dataFavorite);
   }
 }

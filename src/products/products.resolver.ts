@@ -2,7 +2,7 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/createProductos.dto';
 import { ProductResponse } from './interface/responseData.interface';
-import { ProductModel } from './models/product.model';
+import { ProductModel } from '@model/product.model';
 import { UpdateProductDto } from './dto/updateProducts.dto';
 import { PagProductResponse } from './dto/pag-product-res.dto';
 import { Response } from '@interface/response.results.interface';
