@@ -14,3 +14,8 @@ export interface DataOriginFavorite extends DataFavorite {
 export interface DataFavoriteRes extends DataFavorite {
   _id: string;
 }
+
+export interface FavoriteUserList {
+  _id: Types.ObjectId;
+  listProducts: Types.ObjectId[];
+}
