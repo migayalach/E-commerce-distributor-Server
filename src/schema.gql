@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+enum ActionFavorite {
+  add
+  delete
+}
+
+input ActionFavoriteDto {
+  action: ActionFavorite!
+  idFavorite: ID!
+  idProduct: ID!
+}
+
 type Category {
   _id: ID!
   nameCategory: String!
@@ -25,17 +36,13 @@ input CreateCategoryDto {
   nameCategory: String!
 }
 
-input CreateFavoriteDto {
-  idProduct: ID!
-  idUser: ID!
-}
-
 input CreateLevelDto {
   nameLevel: String!
 }
 
 input CreateProductDto {
   idCategory: ID!
+  imageProduct: String!
   nameProduct: String!
   price: Float!
   stock: Float!
@@ -54,6 +61,14 @@ input CreateUserDto {
   password: String!
   phone: Float!
   profilePicture: String
+}
+
+type FavoriteModelGQL {
+  idProduct: ID!
+  imageProduct: String!
+  nameProduct: String!
+  price: Float!
+  stock: Float!
 }
 
 type Info {
@@ -76,9 +91,9 @@ type LevelResponse {
 }
 
 type Mutation {
+  actionFavorite(dataFavorite: ActionFavoriteDto!): ResponseInfo!
   changePassword(dataPassword: ChangePasswordDto!): ResponseInfo!
   createCategory(infoCategory: CreateCategoryDto!): CategoryResponse!
-  createFavorite(dataFavorite: CreateFavoriteDto!): ResponseInfo!
   createLevel(dataLevel: CreateLevelDto!): LevelResponse!
   createProduct(dataProduct: CreateProductDto!): ProductResponse!
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
@@ -87,7 +102,6 @@ type Mutation {
   deleteSubscribe(email: String!): SubscribeResponse!
   deleteUser(idUser: String!): UserResponse!
   removeCategory(idCategory: String!): CategoryResponse!
-  removeFavorite(idFavorite: String!, idProduct: String!): ResponseInfo!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
   updateUser(dataUser: UpdateUserDto!): UserResponse!
@@ -96,6 +110,11 @@ type Mutation {
 type PagCategoryResponse {
   info: Info!
   results: [Category!]!
+}
+
+type PagFavoriteResponse {
+  info: Info!
+  results: [FavoriteModelGQL!]!
 }
 
 type PagLevelResponse {
@@ -121,6 +140,7 @@ type PagUserResponse {
 type ProductModel {
   _id: ID!
   idCategory: ID!
+  imageProduct: String!
   nameCategory: String!
   nameProduct: String!
   price: Float!
@@ -136,11 +156,12 @@ type ProductResponse {
 }
 
 type Query {
+  getAllIdFavorite(idFavorite: String!, page: Int): PagFavoriteResponse!
   getAllLevel(page: Int): PagLevelResponse!
   getCategory(page: Int): PagCategoryResponse!
   getIdCategory(idCategory: String!): Category!
   getIdProduct(idProduct: String!): ProductModel!
-  getIdUser(idUser: String!): UserModelGQL!
+  getIdUser(idUser: String!): UserIdModelGQL!
   getProduct(page: Int): PagProductResponse!
   getSubscribe(page: Int): PagSubsResponse!
   getUsers(page: Int): PagUserResponse!
@@ -172,6 +193,7 @@ input UpdateCategoryDto {
 input UpdateProductDto {
   idCategory: ID!
   idProduct: ID!
+  imageProduct: String
   nameProduct: String
   price: Float
   state: Boolean
@@ -189,6 +211,20 @@ input UpdateUserDto {
   profilePicture: String
 }
 
+type UserIdModelGQL {
+  _id: ID!
+  carnet: String!
+  email: String!
+  idCart: ID!
+  idFavorite: ID!
+  idLevel: ID!
+  lastName: String!
+  name: String!
+  nameLevel: String!
+  phone: Float!
+  profilePicture: String!
+}
+
 type UserModelGQL {
   _id: ID!
   carnet: String!
@@ -203,7 +239,7 @@ type UserModelGQL {
 
 type UserResponse {
   code: String!
-  info: UserModelGQL!
+  info: UserIdModelGQL!
   message: String!
   value: String!
 }
