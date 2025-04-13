@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserResponse } from './interface/responseData.interface';
 import { PagUserResponse } from './dto/pag-user-res.dto';
-import { UserModelGQL } from '@model/user.model';
+import { UserIdModelGQL } from '@model/user.model';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { Response } from '@interface/response.results.interface';
 import { DataUserRes } from './interface/user.interface';
@@ -20,7 +20,7 @@ export class UserResolver {
     return await this.userService.getAllUsers(page);
   }
 
-  @Query(() => UserModelGQL)
+  @Query(() => UserIdModelGQL)
   async getIdUser(
     @Args('idUser', { type: () => String, nullable: false }) idUser: string,
   ): Promise<DataUserRes> {
