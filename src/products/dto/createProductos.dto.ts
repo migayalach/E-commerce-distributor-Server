@@ -24,6 +24,11 @@ export class CreateProductDto {
   price: number;
 
   @Field()
+  @IsString()
+  @IsNotEmpty()
+  imageProduct: string;
+
+  @Field()
   @IsNumber()
   @Min(0, { message: 'The stock cannot be less than 0.' })
   stock: number;

@@ -9,11 +9,14 @@ export class Product extends Document {
   @Prop({ required: true })
   nameProduct: string;
 
-  @Prop()
+  @Prop({ required: true })
   price: number;
 
-  @Prop()
+  @Prop({ required: true })
   stock: number;
+
+  @Prop({ required: true })
+  imageProduct: string;
 
   @Prop({ default: true })
   state: boolean;

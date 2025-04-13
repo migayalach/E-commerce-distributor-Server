@@ -4,6 +4,7 @@
         └── settings.json
     └── 📁enum
         └── filters.enum.ts
+        └── options.enum.ts
     └── 📁helpers
         └── auxFunction.helpers.ts
         └── clearData.helpers.ts
@@ -13,12 +14,22 @@
         └── response.interface.ts
         └── response.results.interface.ts
     └── 📁models
-        └── password.model.ts
+        └── favorite.model.ts
         └── product.model.ts
         └── user.model.ts
     └── 📁src
         └── app.controller.spec.ts
         └── app.module.ts
+        └── 📁cart
+            └── cart.module.ts
+            └── cart.resolver.spec.ts
+            └── cart.resolver.ts
+            └── cart.service.spec.ts
+            └── cart.service.ts
+            └── 📁interface
+                └── cart.interface.ts
+            └── 📁schema
+                └── cart.schema.ts
         └── 📁category
             └── category.module.ts
             └── category.resolver.spec.ts
@@ -36,13 +47,17 @@
                 └── category.schema.ts
         └── 📁favorite
             └── 📁dto
-                └── createFavorite.dto.ts
-                └── updateFavorite.dto.ts
+                └── actionFavorite.dto.ts
+                └── pag-favorite-res.dto.ts
             └── favorite.module.ts
             └── favorite.resolver.spec.ts
             └── favorite.resolver.ts
             └── favorite.service.spec.ts
             └── favorite.service.ts
+            └── 📁interface
+                └── favorite.interface.ts
+            └── 📁schema
+                └── favorite.schema.ts
         └── 📁level
             └── 📁dto
                 └── createLevel.dto.ts
@@ -60,7 +75,7 @@
         └── main.ts
         └── 📁password
             └── 📁dto
-                └── password.dto.ts
+                └── chengePassword.dto.ts
             └── 📁interface
                 └── password.interface.ts
             └── password.module.ts
@@ -76,8 +91,6 @@
             └── 📁interface
                 └── product.interface.ts
                 └── responseData.interface.ts
-            └── 📁models
-                └── product.model.ts
             └── products.module.ts
             └── products.resolver.spec.ts
             └── products.resolver.ts

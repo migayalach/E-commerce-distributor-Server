@@ -20,6 +20,9 @@ export class ProductModel {
   @Field()
   stock: number;
 
+  @Field()
+  imageProduct: string;
+
   @Field(() => Boolean, { nullable: true })
   state: boolean;
 }

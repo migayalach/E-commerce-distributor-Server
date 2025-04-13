@@ -6,9 +6,11 @@ export class User extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Level', required: true })
   idLevel: string;
 
-  // idFavorite: string;
+  @Prop({ type: Types.ObjectId, ref: 'Favorite' })
+  idFavorite: string;
 
-  // idCard: string;
+  @Prop({ type: Types.ObjectId, ref: 'Cart' })
+  idCart: string;
 
   @Prop({ required: true })
   name: string;

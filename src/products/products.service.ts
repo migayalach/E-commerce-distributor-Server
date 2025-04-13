@@ -118,6 +118,7 @@ export class ProductsService {
         nameProduct: dataProduct.nameProduct,
         price: dataProduct.price,
         stock: dataProduct.stock,
+        imageProduct: dataProduct.imageProduct,
         state: dataProduct.state,
       });
       return {

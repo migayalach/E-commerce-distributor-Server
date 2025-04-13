@@ -6,6 +6,7 @@ export interface DataProduct {
   nameProduct: string;
   price: number;
   stock: number;
+  imageProduct: string;
   state: boolean;
 }
 
@@ -15,4 +16,12 @@ export interface DataOriginProduct extends DataProduct {
 
 export interface DataProductRes extends DataProduct {
   _id: string;
+}
+
+export interface DataProductFavorite {
+  idProduct: string;
+  nameProduct: string;
+  price: number;
+  imageProduct: string;
+  stock: number;
 }
