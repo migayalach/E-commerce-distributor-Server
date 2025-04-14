@@ -14,6 +14,7 @@ import { PasswordModule } from './password/password.module';
 import { CartModule } from './cart/cart.module';
 import { BuyModule } from './buy/buy.module';
 import { DetailModule } from './detail/detail.module';
+import { SignModule } from './sign/sign.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { DetailModule } from './detail/detail.module';
     CartModule,
     BuyModule,
     DetailModule,
+    SignModule,
   ],
   controllers: [],
   providers: [],
