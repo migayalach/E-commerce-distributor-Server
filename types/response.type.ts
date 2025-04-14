@@ -1,3 +1,4 @@
+import { DataBuyRes } from 'src/buy/interface/buy.interface';
 import { DataCategory } from 'src/category/interface/category.interface';
 import { DataFavorite } from 'src/favorite/interface/favorite.interface';
 import { DataLevel } from 'src/level/interface/level.interface';
@@ -11,4 +12,5 @@ export type DataItem =
   | DataLevel[]
   | DataProduct[]
   | DataUser[]
-  | DataFavorite[];
+  | DataFavorite[]
+  | DataBuyRes[];
