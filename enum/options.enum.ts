@@ -1,10 +1,10 @@
 import { registerEnumType } from '@nestjs/graphql';
 
-export enum ActionFavorite {
+export enum ActionAddDelete {
   add = 'add',
   delete = 'delete',
 }
 
-registerEnumType(ActionFavorite, {
-  name: 'ActionFavorite',
+registerEnumType(ActionAddDelete, {
+  name: 'ActionAddDelete',
 });

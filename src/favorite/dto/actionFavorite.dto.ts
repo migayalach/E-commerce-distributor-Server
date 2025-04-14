@@ -1,6 +1,6 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { ActionFavorite } from 'enum/options.enum';
+import { ActionAddDelete } from 'enum/options.enum';
 
 @InputType()
 export class ActionFavoriteDto {
@@ -12,8 +12,8 @@ export class ActionFavoriteDto {
   @IsNotEmpty()
   idProduct: string;
 
-  @Field(() => ActionFavorite)
+  @Field(() => ActionAddDelete)
   @IsNotEmpty()
-  @IsEnum(ActionFavorite)
-  action: ActionFavorite;
+  @IsEnum(ActionAddDelete)
+  action: ActionAddDelete;
 }
