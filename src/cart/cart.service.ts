@@ -20,6 +20,13 @@ export class CartService {
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
   ) {}
 
+  async getAllListCartUser(idCart: string) {
+    const data: CartUserList | null = await this.cartModel
+      .findById(idCart)
+      .select('listProducts');
+    return data;
+  }
+
   async actionCart(dataCart: ActionCartDto): Promise<RespInfoBase> {
     try {
       if (
@@ -98,9 +105,7 @@ export class CartService {
 
   async getListCart(idCart: string, page: number): Promise<PagCartResponse> {
     try {
-      const data: CartUserList | null = await this.cartModel
-        .findById(idCart)
-        .select('listProducts');
+      const data = await this.getAllListCartUser(idCart);
       const arrayProduct: DataProductCart[] = [];
       if (!data) {
         return response(arrayProduct, page);

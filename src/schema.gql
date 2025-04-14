@@ -19,6 +19,12 @@ input ActionFavoriteDto {
   idProduct: ID!
 }
 
+type BuyModelGQL {
+  _id: ID!
+  code: String!
+  date: DateTime!
+}
+
 type CartModelGQL {
   idProduct: ID!
   imageProduct: String!
@@ -44,6 +50,11 @@ input ChangePasswordDto {
   newPassword: String!
   oldPassword: String!
   repeatNewPassword: String!
+}
+
+input CreateBuyDto {
+  idCart: ID!
+  idUser: ID!
 }
 
 input CreateCategoryDto {
@@ -77,6 +88,11 @@ input CreateUserDto {
   profilePicture: String
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type FavoriteModelGQL {
   idProduct: ID!
   imageProduct: String!
@@ -109,6 +125,7 @@ type Mutation {
   actionFavorite(dataFavorite: ActionFavoriteDto!): ResponseInfo!
   changePassword(dataPassword: ChangePasswordDto!): ResponseInfo!
   clearCart(idCart: String!): ResponseInfo!
+  createBuy(shoppingList: CreateBuyDto!): ResponseInfo!
   createCategory(infoCategory: CreateCategoryDto!): CategoryResponse!
   createLevel(dataLevel: CreateLevelDto!): LevelResponse!
   createProduct(dataProduct: CreateProductDto!): ProductResponse!
@@ -121,6 +138,11 @@ type Mutation {
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
   updateUser(dataUser: UpdateUserDto!): UserResponse!
+}
+
+type PagBuyResponse {
+  info: Info!
+  results: [BuyModelGQL!]!
 }
 
 type PagCartResponse {
@@ -177,6 +199,7 @@ type ProductResponse {
 }
 
 type Query {
+  getAllBuy(idUser: String!, page: Int): PagBuyResponse!
   getAllIdCart(idCart: String!, page: Int): PagCartResponse!
   getAllIdFavorite(idFavorite: String!, page: Int): PagFavoriteResponse!
   getAllLevel(page: Int): PagLevelResponse!
