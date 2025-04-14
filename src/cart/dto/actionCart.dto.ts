@@ -3,10 +3,10 @@ import { IsEnum, IsNotEmpty } from 'class-validator';
 import { ActionAddDelete } from 'enum/options.enum';
 
 @InputType()
-export class ActionFavoriteDto {
+export class ActionCartDto {
   @Field(() => ID, { nullable: false })
   @IsNotEmpty()
-  idFavorite: string;
+  idCart: string;
 
   @Field(() => ID, { nullable: false })
   @IsNotEmpty()

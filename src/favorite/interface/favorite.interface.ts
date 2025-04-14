@@ -19,3 +19,11 @@ export interface FavoriteUserList {
   _id: Types.ObjectId;
   listProducts: Types.ObjectId[];
 }
+
+export interface DataProductCart {
+  idProduct: string;
+  nameProduct: string;
+  price: number;
+  imageProduct: string;
+  stock: number;
+}

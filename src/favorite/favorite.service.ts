@@ -5,7 +5,7 @@ import { Model, Types } from 'mongoose';
 import { ProductsService } from 'src/products/products.service';
 import { ActionFavoriteDto } from './dto/actionFavorite.dto';
 import { ApolloError } from 'apollo-server-express';
-import { ActionFavorite } from 'enum/options.enum';
+import { ActionAddDelete } from 'enum/options.enum';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { FavoriteUserList } from './interface/favorite.interface';
 import { DataProductFavorite } from 'src/products/interface/product.interface';
@@ -54,8 +54,8 @@ export class FavoriteService {
   async actionFavorite(dataProduct: ActionFavoriteDto): Promise<RespInfoBase> {
     try {
       if (
-        dataProduct.action === ActionFavorite.add ||
-        dataProduct.action === ActionFavorite.delete
+        dataProduct.action === ActionAddDelete.add ||
+        dataProduct.action === ActionAddDelete.delete
       ) {
         const existList = await this.favoriteModel.findById(
           dataProduct.idFavorite,
@@ -70,7 +70,7 @@ export class FavoriteService {
         const listProducts = await this.favoriteModel
           .findById(dataProduct.idFavorite)
           .select('-__v');
-        if (dataProduct.action === ActionFavorite.add) {
+        if (dataProduct.action === ActionAddDelete.add) {
           if (
             listProducts?.listProducts.includes(
               new Types.ObjectId(dataProduct.idProduct),
