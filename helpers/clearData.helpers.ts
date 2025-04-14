@@ -7,6 +7,7 @@ import {
   DataProductRes,
 } from 'src/products/interface/product.interface';
 import { DataOriginUser, DataUserRes } from 'src/user/interface/user.interface';
+import { DataBuyRes } from 'src/buy/interface/buy.interface';
 
 export const clearSubs = (data: DataSubs[]) => {
   const response = data.map(({ _id, email }) => ({
@@ -106,4 +107,13 @@ export const clearlistFavProduct = (product: DataProductRes) => {
     stock: product.stock,
   };
   return data;
+};
+
+export const clearListBuys = (data: DataBuyRes[]) => {
+  const listClear = data.map(({ _id, date, code }) => ({
+    _id: parseIdObject(_id),
+    date,
+    code,
+  }));
+  return listClear;
 };
