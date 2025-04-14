@@ -6,7 +6,7 @@ import { PagFavoriteResponse } from './dto/pag-favorite-res.dto';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { Response } from '@interface/response.results.interface';
 
-@Resolver()
+@Resolver('Favorite')
 export class FavoriteResolver {
   constructor(private readonly favoriteService: FavoriteService) {}
 

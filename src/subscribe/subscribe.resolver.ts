@@ -6,7 +6,7 @@ import { Response } from '@interface/response.results.interface';
 import { SubscribeResponse } from './interface/responseData.interface';
 import { ResSubscription } from '@interface/data.info.interface';
 
-@Resolver()
+@Resolver('Subscribe')
 export class SubscribeResolver {
   constructor(private readonly subscribeService: SubscribeService) {}
 

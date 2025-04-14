@@ -9,7 +9,7 @@ import { Response } from '@interface/response.results.interface';
 import { DataUserRes } from './interface/user.interface';
 import { ResUser } from '@interface/data.info.interface';
 
-@Resolver()
+@Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 

@@ -9,7 +9,7 @@ import { Response } from '@interface/response.results.interface';
 import { DataProductRes } from './interface/product.interface';
 import { ResProduct } from '@interface/data.info.interface';
 
-@Resolver()
+@Resolver('Product')
 export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 

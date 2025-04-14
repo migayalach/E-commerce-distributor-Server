@@ -9,7 +9,7 @@ import { Category } from './schema/category.schema';
 import { DataCategory } from './interface/category.interface';
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
 
-@Resolver()
+@Resolver('Category')
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 

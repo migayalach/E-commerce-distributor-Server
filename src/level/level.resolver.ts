@@ -6,7 +6,7 @@ import { ResLevel } from '@interface/data.info.interface';
 import { PagLevelResponse } from './dto/pag-level-res.dto';
 import { Response } from '@interface/response.results.interface';
 
-@Resolver()
+@Resolver('Level')
 export class LevelResolver {
   constructor(private readonly levelService: LevelService) {}
 

@@ -12,6 +12,8 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { PasswordModule } from './password/password.module';
 import { CartModule } from './cart/cart.module';
+import { BuyModule } from './buy/buy.module';
+import { DetailModule } from './detail/detail.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { CartModule } from './cart/cart.module';
     PasswordModule,
     FavoriteModule,
     CartModule,
+    BuyModule,
+    DetailModule,
   ],
   controllers: [],
   providers: [],
