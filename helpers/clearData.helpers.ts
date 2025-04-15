@@ -8,6 +8,7 @@ import {
 } from 'src/products/interface/product.interface';
 import { DataOriginUser, DataUserRes } from 'src/user/interface/user.interface';
 import { DataBuyRes } from 'src/buy/interface/buy.interface';
+import { DataProductCartRes } from 'src/cart/interface/cart.interface';
 
 export const clearSubs = (data: DataSubs[]) => {
   const response = data.map(({ _id, email }) => ({
@@ -116,4 +117,16 @@ export const clearListBuys = (data: DataBuyRes[]) => {
     code,
   }));
   return listClear;
+};
+
+export const clearlistCartProduct = (product: DataProductCartRes) => {
+  const data = {
+    idProduct: product._id.toString(),
+    nameProduct: product.nameProduct,
+    price: product.price,
+    imageProduct: product.imageProduct,
+    stock: product.stock,
+    amount: product.amount,
+  };
+  return data;
 };
