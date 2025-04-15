@@ -1,6 +1,6 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { IsEnum, IsNotEmpty } from 'class-validator';
-import { ActionAddDelete } from 'enum/options.enum';
+import { IsEnum, IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { ActionAddUpdate } from 'enum/options.enum';
 
 @InputType()
 export class ActionCartDto {
@@ -12,8 +12,13 @@ export class ActionCartDto {
   @IsNotEmpty()
   idProduct: string;
 
-  @Field(() => ActionAddDelete)
+  @Field(() => ActionAddUpdate)
   @IsNotEmpty()
-  @IsEnum(ActionAddDelete)
-  action: ActionAddDelete;
+  @IsEnum(ActionAddUpdate)
+  action: ActionAddUpdate;
+
+  @Field()
+  @IsNumber()
+  @Min(0, { message: 'Please enter a quantity' })
+  amount: number;
 }

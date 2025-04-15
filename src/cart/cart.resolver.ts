@@ -26,6 +26,15 @@ export class CartResolver {
   }
 
   @Mutation(() => ResponseInfo)
+  async deleleItemCart(
+    @Args('idProduct', { type: () => String, nullable: false })
+    idProduct: string,
+    @Args('idCart', { type: () => String, nullable: false }) idCart: string,
+  ): Promise<RespInfoBase> {
+    return await this.cartService.removeItemCart(idProduct, idCart);
+  }
+
+  @Mutation(() => ResponseInfo)
   async clearCart(
     @Args('idCart', { type: () => String, nullable: false }) idCart: string,
   ): Promise<void> {
