@@ -16,4 +16,7 @@ export class CartModelGQL {
 
   @Field()
   stock: number;
+
+  @Field()
+  amount: number;
 }
