@@ -14,3 +14,9 @@ export interface Response {
   info: InfoData;
   results: Array<object>;
 }
+
+export interface ResponseDetail {
+  info: InfoData;
+  totalBuy: number;
+  results: Array<object>;
+}
