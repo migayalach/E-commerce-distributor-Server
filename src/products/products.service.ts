@@ -22,6 +22,15 @@ export class ProductsService {
     private categoryService: CategoryService,
   ) {}
 
+  async discountStock(idProduct: string, amount: number): Promise<void> {
+    const productStock = await this.getIdProduct(idProduct);
+    const newStock = productStock.stock - amount;
+    await this.productModel.findByIdAndUpdate(idProduct, {
+      stock: newStock,
+    });
+    return;
+  }
+
   async getAllProduct(page: number) {
     try {
       const dataProduct: DataOriginProduct[] = await this.productModel
