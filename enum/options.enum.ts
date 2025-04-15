@@ -8,3 +8,12 @@ export enum ActionAddDelete {
 registerEnumType(ActionAddDelete, {
   name: 'ActionAddDelete',
 });
+
+export enum ActionAddUpdate {
+  add = 'add',
+  update = 'update',
+}
+
+registerEnumType(ActionAddUpdate, {
+  name: 'ActionAddUpdate',
+});
