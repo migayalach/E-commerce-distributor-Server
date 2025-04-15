@@ -5,13 +5,12 @@ import { Cart } from './schema/cart.schema';
 import { Model, Types } from 'mongoose';
 import { ActionCartDto } from './dto/actionCart.dto';
 import { ApolloError } from 'apollo-server-express';
-import { ActionAddDelete } from 'enum/options.enum';
+import { ActionAddUpdate } from 'enum/options.enum';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { PagCartResponse } from './dto/pag-cart-res.dto';
-import { CartUserList } from './interface/cart.interface';
+import { CartUserList, DataProductsCart } from './interface/cart.interface';
 import { response } from '@utils/response.util';
-import { DataProductCart } from 'src/favorite/interface/favorite.interface';
-import { clearlistFavProduct } from 'helpers/clearData.helpers';
+import { clearlistCartProduct } from 'helpers/clearData.helpers';
 
 @Injectable()
 export class CartService {
@@ -30,8 +29,8 @@ export class CartService {
   async actionCart(dataCart: ActionCartDto): Promise<RespInfoBase> {
     try {
       if (
-        dataCart.action === ActionAddDelete.add ||
-        dataCart.action === ActionAddDelete.delete
+        dataCart.action === ActionAddUpdate.add ||
+        dataCart.action === ActionAddUpdate.update
       ) {
         const existList = await this.cartModel.findById(dataCart.idCart);
         if (!existList) {
@@ -40,46 +39,65 @@ export class CartService {
             'NOT_FOUND',
           );
         }
-        await this.productService.getIdProduct(dataCart.idProduct);
+        const { stock } = await this.productService.getIdProduct(
+          dataCart.idProduct,
+        );
+        if (dataCart.amount >= stock) {
+          throw new ApolloError(
+            'We are sorry, our stock is less than what you requested.',
+            'NOT_FOUND',
+          );
+        }
+
         const listProducts = await this.cartModel
           .findById(dataCart.idCart)
           .select('-__v');
+        const clearList = (listProducts?.listProducts ?? []).map(
+          ({ idProduct }) => idProduct.toString(),
+        );
 
-        if (dataCart.action === ActionAddDelete.add) {
-          if (
-            listProducts?.listProducts.includes(
-              new Types.ObjectId(dataCart.idProduct),
-            )
-          ) {
+        if (dataCart.action === ActionAddUpdate.add) {
+          if (clearList.includes(dataCart.idProduct)) {
             throw new ApolloError(
               'Sorry, this product is currently registered.',
               'NOT_FOUND',
             );
           }
-          await this.cartModel.findByIdAndUpdate(dataCart.idCart, {
-            $push: {
-              listProducts: new Types.ObjectId(dataCart.idProduct),
+
+          await this.cartModel.updateOne(
+            { _id: dataCart.idCart },
+            {
+              $push: {
+                listProducts: {
+                  idProduct: new Types.ObjectId(dataCart.idProduct),
+                  amount: dataCart.amount,
+                },
+              },
             },
-          });
+          );
           return {
             message: 'Added product successfully.',
             code: '201',
             value: 'add-product',
           };
         } else {
-          if (
-            !listProducts?.listProducts.includes(
-              new Types.ObjectId(dataCart.idProduct),
-            )
-          ) {
+          if (!clearList.includes(dataCart.idProduct)) {
             throw new ApolloError(
               'Sorry, this product is not currently registered.',
               'NOT_FOUND',
             );
           }
-          await this.cartModel.findByIdAndUpdate(dataCart.idCart, {
-            $pull: { listProducts: new Types.ObjectId(dataCart.idProduct) },
-          });
+          await this.cartModel.updateOne(
+            {
+              _id: dataCart.idCart,
+              'listProducts.idProduct': new Types.ObjectId(dataCart.idProduct),
+            },
+            {
+              $set: {
+                'listProducts.$.amount': dataCart.amount,
+              },
+            },
+          );
           return {
             message: 'Remove product successfully.',
             code: '201',
@@ -103,19 +121,67 @@ export class CartService {
     }
   }
 
+  async removeItemCart(
+    idProduct: string,
+    idCart: string,
+  ): Promise<RespInfoBase> {
+    try {
+      await this.cartModel.findById(idCart);
+      await this.productService.getIdProduct(idProduct);
+      const listProducts = await this.cartModel.findById(idCart).select('-__v');
+      const clearList = (listProducts?.listProducts ?? []).map(
+        ({ idProduct }) => idProduct.toString(),
+      );
+      if (!clearList.includes(idProduct)) {
+        throw new ApolloError(
+          'Sorry, this product is not currently registered.',
+          'NOT_FOUND',
+        );
+      }
+      await this.cartModel.updateOne(
+        { _id: idCart },
+        {
+          $pull: {
+            listProducts: {
+              idProduct: new Types.ObjectId(idProduct),
+            },
+          },
+        },
+      );
+      return {
+        message: 'Remove product successfully.',
+        code: '201',
+        value: 'remove-product',
+      };
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while remove that product.',
+        'INTERNAL_SERVER_ERROR',
+      );
+    }
+  }
+
   async getListCart(idCart: string, page: number): Promise<PagCartResponse> {
     try {
       const data = await this.getAllListCartUser(idCart);
-      const arrayProduct: DataProductCart[] = [];
+      const arrayProduct: DataProductsCart[] = [];
       if (!data) {
         return response(arrayProduct, page);
       }
 
       for (let i = 0; i < data.listProducts.length; i++) {
         const infoProduct = await this.productService.getIdProduct(
-          data.listProducts[i].toString(),
+          data.listProducts[i].idProduct.toString(),
         );
-        arrayProduct.push(clearlistFavProduct(infoProduct));
+        arrayProduct.push(
+          clearlistCartProduct({
+            ...infoProduct,
+            amount: data.listProducts[i].amount,
+          }),
+        );
       }
       return response(arrayProduct, page);
     } catch (error) {
@@ -135,6 +201,7 @@ export class CartService {
         { _id: idCart },
         { $set: { listProducts: [] } },
       );
+      return;
     } catch (error) {
       if (error instanceof ApolloError) {
         throw error;
