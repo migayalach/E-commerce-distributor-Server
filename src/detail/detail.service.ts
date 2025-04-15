@@ -2,17 +2,50 @@ import { Injectable } from '@nestjs/common';
 import { CartService } from 'src/cart/cart.service';
 import { ProductsService } from 'src/products/products.service';
 import { Detail } from './schema/detail.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ApolloError } from 'apollo-server-express';
+import {
+  DataDetailProduct,
+  ListProduct,
+  objProductData,
+} from './interface/detail.interface';
+import { CartUserList } from 'src/cart/interface/cart.interface';
+import { responseDetail } from '@utils/response.util';
+import { PagDetailResponse } from './dto/pag-detail-res.dto';
 
 @Injectable()
 export class DetailService {
   constructor(
     private productService: ProductsService,
     private cartService: CartService,
-    @InjectModel(Detail.name) private buyModel: Model<Detail>,
+    @InjectModel(Detail.name) private detailModel: Model<Detail>,
   ) {}
+
+  async getDetailProduc(cartData: CartUserList) {
+    let sum: number = 0;
+    const listProduct: objProductData[] = [];
+    for (let i = 0; i < cartData.listProducts.length; i++) {
+      const obj = {
+        idProduct: cartData.listProducts[i].idProduct,
+        price: 0,
+        amount: cartData.listProducts[i].amount,
+        total: 0,
+      };
+      const infoProduct = await this.productService.getIdProduct(
+        cartData.listProducts[i].idProduct.toString(),
+      );
+      obj.price = infoProduct.price;
+      obj.total = obj.price * obj.amount;
+      await this.productService.discountStock(
+        obj.idProduct.toString(),
+        obj.amount,
+      );
+      listProduct.push(obj);
+      sum += obj.total;
+    }
+    return { listProduct, totalBuy: sum };
+  }
 
   async addDetail(idBuy: string, idCart: string): Promise<void> {
     try {
@@ -23,14 +56,14 @@ export class DetailService {
           'INTERNAL_SERVER_ERROR',
         );
       }
-      console.log(cartData.listProducts);
-      for (let i = 0; i < cartData.listProducts.length; i++) {
-        await this.productService.getIdProduct(
-          cartData.listProducts[i].toString(),
-        );
-      }
-      // ADD DETAIL AND PRODUCTDETAIL
-      // quitar stock
+      const { listProduct, totalBuy } = await this.getDetailProduc(cartData);
+      // //! ADD DETAIL AND PRODUCT-DETAIL
+      const detailInfo = new this.detailModel({
+        idBuy: new Types.ObjectId(idBuy),
+        listProduct,
+        totalBuy,
+      });
+      await detailInfo.save();
       await this.cartService.clearCart(idCart);
       return;
     } catch (error) {
@@ -44,7 +77,41 @@ export class DetailService {
     }
   }
 
-  getIdDetail() {
-    return;
+  async getIdDetail(idBuy: string, page: number): Promise<PagDetailResponse> {
+    try {
+      const data = (await this.detailModel
+        .findOne({
+          idBuy: new Types.ObjectId(idBuy),
+        })
+        .select('listProduct totalBuy -_id')) as ListProduct;
+
+      const dataDetail: DataDetailProduct[] = [];
+      for (let i = 0; i < data?.listProduct.length; i++) {
+        const objProduct = {
+          idProduct: data.listProduct[i].idProduct.toString(),
+          nameProduct: '',
+          imageProduct: '',
+          amount: data.listProduct[i].amount,
+          price: data.listProduct[i].price,
+          total: data.listProduct[i].total,
+        };
+        const { nameProduct, imageProduct } =
+          await this.productService.getIdProduct(
+            String(data.listProduct[i].idProduct),
+          );
+        objProduct.nameProduct = nameProduct;
+        objProduct.imageProduct = imageProduct;
+        dataDetail.push(objProduct);
+      }
+      return responseDetail(dataDetail, page, data.totalBuy);
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while searching for your products list detail.',
+        'INTERNAL_SERVER_ERROR',
+      );
+    }
   }
 }
