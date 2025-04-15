@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-@Schema()
+@Schema({ _id: false })
 export class ProductDetail extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
   idProduct: string;
@@ -20,7 +20,7 @@ export const ProductDetailSchema = SchemaFactory.createForClass(ProductDetail);
 
 @Schema()
 export class Detail extends Document {
-  @Prop({ required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Buy', required: true })
   idBuy: string;
 
   @Prop({ type: [ProductDetailSchema], required: true })
