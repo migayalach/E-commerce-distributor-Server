@@ -76,6 +76,13 @@ export const products = [
     price: 15,
   },
   {
+    nameProduct: 'Chicarron',
+    imageProduct:
+      'https://www.fidalga.com/cdn/shop/products/DSC02073.jpg?v=1653343622',
+    stock: 5,
+    price: 34,
+  },
+  {
     nameProduct: 'Red Bull 250ml',
     imageProduct:
       'https://farmacorp.com/cdn/shop/files/564111_1200x1200.jpg?v=1714434386',
@@ -90,11 +97,32 @@ export const products = [
     stock: 12,
   },
   {
-    nameProduct: 'Casa real ',
+    nameProduct: 'Speed Unlimited',
+    imageProduct:
+      'https://www.distribuidorabebidas.com.uy/wp-content/uploads/sites/31/2018/01/speed-510x383.jpg',
+    price: 6,
+    stock: 18,
+  },
+  {
+    nameProduct: 'Casa real tapa roja',
     imageProduct:
       'https://www.singanicasareal.com/wp-content/uploads/2024/01/Casa-Real-Pagina-Web-Banner-Etiqueta-Roja-710x1024-1.jpg',
     price: 90,
     stock: 12,
+  },
+  {
+    nameProduct: 'Casa real tapa azul',
+    imageProduct:
+      'https://licorhouse.com/cdn/shop/products/0101-030750.jpg?v=1669294937',
+    price: 120,
+    stock: 18,
+  },
+  {
+    nameProduct: 'Casa real tapa negra',
+    imageProduct:
+      'https://www.singanicasareal.com/wp-content/uploads/2019/07/singani-casa-real-15.png',
+    price: 150,
+    stock: 8,
   },
 ];
 
