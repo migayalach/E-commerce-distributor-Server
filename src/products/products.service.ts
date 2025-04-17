@@ -28,6 +28,10 @@ export class ProductsService {
     await this.productModel.findByIdAndUpdate(idProduct, {
       stock: newStock,
     });
+    const dataStock = await this.getIdProduct(idProduct);
+    if (dataStock.stock === 0) {
+      await this.productModel.findByIdAndUpdate(idProduct, { state: false });
+    }
     return;
   }
 
