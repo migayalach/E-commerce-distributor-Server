@@ -15,7 +15,6 @@ import { CartModule } from './cart/cart.module';
 import { BuyModule } from './buy/buy.module';
 import { DetailModule } from './detail/detail.module';
 import { SignModule } from './sign/sign.module';
-import { SeedersModule } from './seeders/seeders.module';
 
 @Module({
   imports: [
@@ -43,7 +42,6 @@ import { SeedersModule } from './seeders/seeders.module';
     BuyModule,
     DetailModule,
     SignModule,
-    SeedersModule,
   ],
   controllers: [],
   providers: [],
