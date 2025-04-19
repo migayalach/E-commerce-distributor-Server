@@ -6,6 +6,9 @@ import { CategoryModule } from 'src/category/category.module';
 import { ProductsModule } from 'src/products/products.module';
 import { LevelModule } from 'src/level/level.module';
 import { UserModule } from 'src/user/user.module';
+import { FavoriteModule } from 'src/favorite/favorite.module';
+import { CartModule } from 'src/cart/cart.module';
+import { BuyModule } from 'src/buy/buy.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { UserModule } from 'src/user/user.module';
     ProductsModule,
     LevelModule,
     UserModule,
+    FavoriteModule,
+    CartModule,
+    BuyModule,
   ],
   providers: [SeedersService],
 })
