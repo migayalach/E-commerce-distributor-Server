@@ -19,6 +19,12 @@ import { saltOrRounds, urlWithOutImage } from '../../constants';
 import { Cart } from 'src/cart/schema/cart.schema';
 import { Favorite } from 'src/favorite/schema/favorite.schema';
 
+interface UsersInfo {
+  idUser: Types.ObjectId;
+  idCart: Types.ObjectId;
+  idFavorite: Types.ObjectId;
+}
+
 @Injectable()
 export class UserService {
   constructor(
@@ -27,6 +33,17 @@ export class UserService {
     @InjectModel(Favorite.name) private favoriteModel: Model<Favorite>,
     private levelService: LevelService,
   ) {}
+
+  async getAllListUsers(): Promise<UsersInfo[]> {
+    const dataUser: DataOriginUser[] = await this.userModel
+      .find()
+      .select('_id idCart idFavorite');
+    return dataUser.map(({ _id, idCart, idFavorite }) => ({
+      idUser: _id,
+      idCart: new Types.ObjectId(idCart),
+      idFavorite: new Types.ObjectId(idFavorite),
+    }));
+  }
 
   async existEmail(email: string): Promise<void> {
     const existEmail = await this.userModel.find({ email }).select('-__v');
