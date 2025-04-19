@@ -10,6 +10,7 @@ import { Subscribe, SubscribeSchema } from './schema/subscribe.schema';
       { name: Subscribe.name, schema: SubscribeSchema },
     ]),
   ],
+  exports: [SubscribeService],
   providers: [SubscribeResolver, SubscribeService],
 })
 export class SubscribeModule {}
