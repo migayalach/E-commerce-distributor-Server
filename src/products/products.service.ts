@@ -22,6 +22,13 @@ export class ProductsService {
     private categoryService: CategoryService,
   ) {}
 
+  async getAllListProducts(): Promise<Types.ObjectId[]> {
+    const dataProduct: DataOriginProduct[] = await this.productModel
+      .find()
+      .select('_id');
+    return dataProduct.map(({ _id }) => _id);
+  }
+
   async discountStock(idProduct: string, amount: number): Promise<void> {
     const productStock = await this.getIdProduct(idProduct);
     const newStock = productStock.stock - amount;
