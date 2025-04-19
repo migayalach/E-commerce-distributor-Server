@@ -12,6 +12,11 @@ import {
   level,
   listUsers,
 } from './initialData.seeders';
+import { FavoriteService } from 'src/favorite/favorite.service';
+import { CartService } from 'src/cart/cart.service';
+import { BuyService } from 'src/buy/buy.service';
+import { Types } from 'mongoose';
+import { ActionAddDelete, ActionAddUpdate } from 'enum/options.enum';
 
 interface DataSubscriptions {
   email: string;
@@ -43,6 +48,9 @@ export class SeedersService {
     private productService: ProductsService,
     private levelService: LevelService,
     private userService: UserService,
+    private favoriteService: FavoriteService,
+    private cartService: CartService,
+    private buyService: BuyService,
   ) {}
 
   async addSubscribeData(data: DataSubscriptions[]) {
@@ -89,11 +97,90 @@ export class SeedersService {
     }
   }
 
+  async addFavorites(idFavorite: string, listProducts: Types.ObjectId[]) {
+    const elements = Math.floor(Math.random() * 15) + 1;
+    const listElements: Types.ObjectId[] = [];
+    let count = 0;
+    while (count < elements) {
+      const position = Math.floor(Math.random() * 74) + 1;
+      if (!listElements.includes(listProducts[position])) {
+        listElements.push(listProducts[position]);
+        await this.favoriteService.actionFavorite({
+          idFavorite,
+          idProduct: listProducts[position].toString(),
+          action: ActionAddDelete.add,
+        });
+        count++;
+      }
+    }
+  }
+
+  async addCart(idCart: string, listProducts: Types.ObjectId[]) {
+    const elements = Math.floor(Math.random() * 15) + 1;
+    const listElements: Types.ObjectId[] = [];
+    let count = 0;
+    while (count < elements) {
+      const position = Math.floor(Math.random() * 74) + 1;
+      const amount = Math.floor(Math.random() * 10) + 1;
+      if (!listElements.includes(listProducts[position])) {
+        listElements.push(listProducts[position]);
+        await this.cartService.actionCart({
+          idCart,
+          idProduct: listProducts[position].toString(),
+          action: ActionAddUpdate.add,
+          amount,
+        });
+
+        count++;
+      }
+    }
+  }
+
+  async actionFavoriteCart(): Promise<void> {
+    const listUsers = await this.userService.getAllListUsers();
+    const listProducts = await this.productService.getAllListProducts();
+    //* ADD FAVORITES
+    for (let index = 0; index < listUsers.length; index++) {
+      if ((Math.random() > 0.5 ? 1 : 0) === 1) {
+        await this.addFavorites(
+          listUsers[index].idFavorite.toString(),
+          listProducts,
+        );
+      }
+    }
+    //* ADD CART
+    for (let index = 0; index < listUsers.length; index++) {
+      if ((Math.random() > 0.5 ? 1 : 0) === 1) {
+        await this.addCart(listUsers[index].idCart.toString(), listProducts);
+      }
+    }
+  }
+
+  async addBuy(): Promise<void> {
+    const listUsers = await this.userService.getAllListUsers();
+    for (let index = 0; index < listUsers.length; index++) {
+      const userCart = await this.cartService.getAllListCartUser(
+        listUsers[index].idCart.toString(),
+      );
+      if (
+        userCart?.listProducts.length &&
+        (Math.random() > 0.5 ? 1 : 0) === 1
+      ) {
+        await this.buyService.addBuy({
+          idUser: listUsers[index].idUser.toString(),
+          idCart: listUsers[index].idCart.toString(),
+        });
+      }
+    }
+  }
+
   async run() {
     try {
       await this.addSubscribeData(subscribe);
-      await this.addCategyProductsData(category);
       await this.addLevelUsers(level, listUsers);
+      await this.addCategyProductsData(category);
+      await this.actionFavoriteCart();
+      await this.addBuy();
       console.log('Loading data...');
     } catch (error) {
       console.log(error);
