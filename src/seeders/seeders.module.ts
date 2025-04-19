@@ -1,27 +1,22 @@
 import { Module } from '@nestjs/common';
 import { SeedersService } from './seeders.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  Subscribe,
-  SubscribeSchema,
-} from 'src/subscribe/schema/subscribe.schema';
-import { Category, CategorySchema } from 'src/category/schema/category.schema';
-import { Product, ProductSchema } from 'src/products/schema/product.schema';
-import { Level, LevelSchema } from 'src/level/schema/level.schema';
-import { User, UserSchema } from 'src/user/schema/user.schema';
+import { SubscribeModule } from 'src/subscribe/subscribe.module';
+import { CategoryModule } from 'src/category/category.module';
+import { ProductsModule } from 'src/products/products.module';
+import { LevelModule } from 'src/level/level.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(
       process.env.DATABASE_DOCKER || 'mongodb://localhost/distributor',
     ),
-    MongooseModule.forFeature([
-      { name: Subscribe.name, schema: SubscribeSchema },
-      { name: Category.name, schema: CategorySchema },
-      { name: Product.name, schema: ProductSchema },
-      { name: Level.name, schema: LevelSchema },
-      { name: User.name, schema: UserSchema },
-    ]),
+    SubscribeModule,
+    CategoryModule,
+    ProductsModule,
+    LevelModule,
+    UserModule,
   ],
   providers: [SeedersService],
 })
