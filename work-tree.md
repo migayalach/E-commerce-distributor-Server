@@ -14,18 +14,37 @@
         └── response.interface.ts
         └── response.results.interface.ts
     └── 📁models
+        └── buy.model.ts
+        └── cart.model.ts
+        └── detail.model.ts
         └── favorite.model.ts
         └── product.model.ts
         └── user.model.ts
     └── 📁src
         └── app.controller.spec.ts
         └── app.module.ts
+        └── 📁buy
+            └── buy.module.ts
+            └── buy.resolver.spec.ts
+            └── buy.resolver.ts
+            └── buy.service.spec.ts
+            └── buy.service.ts
+            └── 📁dto
+                └── createBuy.dto.ts
+                └── pag-buy-res.dto.ts
+            └── 📁interface
+                └── buy.interface.ts
+            └── 📁schema
+                └── buy.schema.ts
         └── 📁cart
             └── cart.module.ts
             └── cart.resolver.spec.ts
             └── cart.resolver.ts
             └── cart.service.spec.ts
             └── cart.service.ts
+            └── 📁dto
+                └── actionCart.dto.ts
+                └── pag-cart-res.dto.ts
             └── 📁interface
                 └── cart.interface.ts
             └── 📁schema
@@ -45,6 +64,18 @@
                 └── responseData.interface.ts
             └── 📁schema
                 └── category.schema.ts
+        └── 📁detail
+            └── detail.module.ts
+            └── detail.resolver.spec.ts
+            └── detail.resolver.ts
+            └── detail.service.spec.ts
+            └── detail.service.ts
+            └── 📁dto
+                └── pag-detail-res.dto.ts
+            └── 📁interface
+                └── detail.interface.ts
+            └── 📁schema
+                └── detail.schema.ts
         └── 📁favorite
             └── 📁dto
                 └── actionFavorite.dto.ts
@@ -100,8 +131,18 @@
                 └── product.schema.ts
         └── schema.gql
         └── 📁seeders
+            └── initialData.seeders.ts
+            └── seed.ts
+            └── seeders.module.ts
+            └── seeders.service.spec.ts
+            └── seeders.service.ts
             └── seeders.spec.ts
-            └── seeders.ts
+        └── 📁sign
+            └── sign.module.ts
+            └── sign.resolver.spec.ts
+            └── sign.resolver.ts
+            └── sign.service.spec.ts
+            └── sign.service.ts
         └── 📁subscribe
             └── 📁dto
                 └── create-subscription.dto.ts
