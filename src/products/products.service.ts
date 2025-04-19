@@ -91,10 +91,12 @@ export class ProductsService {
         })
         .select('-__v');
       if (existName.length) {
-        throw new ApolloError(
-          'This name is already registered, please enter another one',
-          'CONFLICT',
-        );
+        if (existName[0].nameProduct === dataProduct.imageProduct) {
+          throw new ApolloError(
+            'This name is already registered, please enter another one',
+            'CONFLICT',
+          );
+        }
       }
       await this.categoryService.thereIsIdCategory(dataProduct.idCategory);
       const data = new this.productModel({
