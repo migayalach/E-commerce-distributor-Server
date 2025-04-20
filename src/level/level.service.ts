@@ -14,6 +14,19 @@ import { DataLevel } from './interface/level.interface';
 export class LevelService {
   constructor(@InjectModel(Level.name) private levelModel: Model<Level>) {}
 
+  async countLevelDim() {
+    const countData = await this.levelModel.countDocuments();
+    if (!countData) {
+      return await this.levelModel
+        .findOne({ nameLevel: 'admin' })
+        .select('_id');
+    } else {
+      return await this.levelModel
+        .findOne({ nameLevel: 'standar' })
+        .select('_id');
+    }
+  }
+
   async addLevel(dataLevel: CreateLevelDto): Promise<ResLevel> {
     try {
       const thereLevel = await this.levelModel.findOne({
