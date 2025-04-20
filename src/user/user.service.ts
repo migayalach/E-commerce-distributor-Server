@@ -45,6 +45,17 @@ export class UserService {
     }));
   }
 
+  async infoIdEmail(email: string): Promise<string> {
+    const existEmail = await this.userModel.find({ email }).select('_id');
+    if (!existEmail.length) {
+      throw new ApolloError(
+        'This email is not already registered.',
+        'CONFLICT',
+      );
+    }
+    return String(existEmail[0]._id);
+  }
+
   async existEmail(email: string): Promise<void> {
     const existEmail = await this.userModel.find({ email }).select('-__v');
     if (existEmail.length) {

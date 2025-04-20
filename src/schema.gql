@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+enum AccessUser {
+  ALLOWED
+  DENIED
+}
+
 enum ActionAddDelete {
   add
   delete
@@ -151,7 +156,9 @@ type Mutation {
   deleteProduct(idProduct: String!): ProductResponse!
   deleteSubscribe(email: String!): SubscribeResponse!
   deleteUser(idUser: String!): UserResponse!
+  in(dataSignIn: SignInDto!): SignResponse!
   removeCategory(idCategory: String!): CategoryResponse!
+  up(dataSignUp: SignUpDto!): SignResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
   updateUser(dataUser: UpdateUserDto!): UserResponse!
@@ -242,6 +249,28 @@ type ResponseInfo {
   value: String!
 }
 
+input SignInDto {
+  email: String!
+  password: String!
+}
+
+type SignResponse {
+  code: String!
+  info: UserAccess!
+  message: String!
+  value: AccessUser!
+}
+
+input SignUpDto {
+  carnet: String!
+  email: String!
+  lastName: String!
+  name: String!
+  password: String!
+  phone: Float!
+  profilePicture: String
+}
+
 type Subscribe {
   _id: ID!
   email: String!
@@ -278,6 +307,15 @@ input UpdateUserDto {
   name: String!
   phone: Float!
   profilePicture: String
+}
+
+type UserAccess {
+  idCart: String!
+  idFavorite: String!
+  idUser: String!
+  nameLevel: String!
+  nameUser: String!
+  profilePicture: String!
 }
 
 type UserIdModelGQL {
