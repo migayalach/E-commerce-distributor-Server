@@ -17,3 +17,12 @@ export enum ActionAddUpdate {
 registerEnumType(ActionAddUpdate, {
   name: 'ActionAddUpdate',
 });
+
+export enum AccessUser {
+  ALLOWED = 'allowed',
+  DENIED = 'denied',
+}
+
+registerEnumType(AccessUser, {
+  name: 'AccessUser',
+});
