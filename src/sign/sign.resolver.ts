@@ -17,4 +17,11 @@ export class SignResolver {
   async signUp(@Args('dataSignUp') dataSignUp: SignUpDto): Promise<SignData> {
     return await this.signService.signUp(dataSignUp);
   }
+
+  @Mutation(() => String)
+  async refreshToken(
+    @Args('refreshToken') refreshToken: string,
+  ): Promise<string> {
+    return await this.signService._refreshToken(refreshToken);
+  }
 }
