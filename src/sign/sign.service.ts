@@ -26,6 +26,32 @@ export class SignService {
     });
   }
 
+  private async _createRefreshToken(payload: { sub: string; email: string }) {
+    return this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: '7d',
+    });
+  }
+
+  async _refreshToken(refreshToken: string): Promise<string> {
+    try {
+      const payload: { sub: string; email: string } =
+        await this.jwtService.verifyAsync(refreshToken, {
+          secret: process.env.JWT_REFRESH_SECRET,
+        });
+      return this._createTokenAccess({
+        sub: payload.sub,
+        email: payload.email,
+      });
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      console.error(error);
+      throw new ApolloError('Invalid refresh token', 'UNAUTHORIZED');
+    }
+  }
+
   async signIn(dataSignIn: SignInDto): Promise<SignData> {
     try {
       // Check Email
@@ -53,6 +79,10 @@ export class SignService {
           nameUser: userData.name,
           profilePicture: userData.profilePicture,
           access_token: await this._createTokenAccess({
+            sub: userInfo,
+            email: userData.email,
+          }),
+          refresh_token: await this._createRefreshToken({
             sub: userInfo,
             email: userData.email,
           }),
@@ -93,6 +123,10 @@ export class SignService {
           nameUser: infoSign.info.name,
           profilePicture: infoSign.info.profilePicture,
           access_token: await this._createTokenAccess({
+            sub: idUser,
+            email: infoSign.info.email,
+          }),
+          refresh_token: await this._createRefreshToken({
             sub: idUser,
             email: infoSign.info.email,
           }),
