@@ -5,6 +5,7 @@ interface infoSignUp {
   nameLevel: string;
   nameUser: string;
   profilePicture: string;
+  access_token: string;
 }
 
 export interface SignData {

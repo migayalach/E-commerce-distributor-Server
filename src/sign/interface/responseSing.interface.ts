@@ -20,6 +20,9 @@ class UserAccess {
 
   @Field()
   profilePicture: string;
+
+  @Field()
+  access_token: string;
 }
 
 @ObjectType()
