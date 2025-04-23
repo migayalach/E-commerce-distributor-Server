@@ -47,7 +47,6 @@ export class SignService {
       if (error instanceof ApolloError) {
         throw error;
       }
-      console.error(error);
       throw new ApolloError('Invalid refresh token', 'UNAUTHORIZED');
     }
   }
@@ -89,7 +88,6 @@ export class SignService {
         },
       };
     } catch (error) {
-      console.log(error);
       if (error instanceof ApolloError) {
         throw error;
       }
