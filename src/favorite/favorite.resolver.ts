@@ -5,11 +5,14 @@ import { ResponseInfo } from '@interface/response.interface';
 import { PagFavoriteResponse } from './dto/pag-favorite-res.dto';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { Response } from '@interface/response.results.interface';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/sign/guard/auth.guard.guard.guard';
 
 @Resolver('Favorite')
 export class FavoriteResolver {
   constructor(private readonly favoriteService: FavoriteService) {}
 
+  @UseGuards(AuthGuard)
   @Query(() => PagFavoriteResponse)
   async getAllIdFavorite(
     @Args('idFavorite', { type: () => String, nullable: false })
