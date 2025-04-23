@@ -310,6 +310,7 @@ input UpdateUserDto {
 }
 
 type UserAccess {
+  access_token: String!
   idCart: String!
   idFavorite: String!
   idUser: String!

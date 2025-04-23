@@ -9,14 +9,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/user/schema/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class SignService {
   constructor(
     private levelService: LevelService,
     private userService: UserService,
+    private jwtService: JwtService,
     @InjectModel(User.name) private userModel: Model<User>,
   ) {}
+
+  private async _createTokenAccess(payload: { sub: string; email: string }) {
+    return this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET,
+    });
+  }
 
   async signIn(dataSignIn: SignInDto): Promise<SignData> {
     try {
@@ -44,6 +52,10 @@ export class SignService {
           nameLevel: userData.nameLevel,
           nameUser: userData.name,
           profilePicture: userData.profilePicture,
+          access_token: await this._createTokenAccess({
+            sub: userInfo,
+            email: userData.email,
+          }),
         },
       };
     } catch (error) {
@@ -68,17 +80,22 @@ export class SignService {
       if (!infoSign) {
         throw new ApolloError('Sorry, your registration failed.', 'CONFLICT');
       }
+      const idUser = await this.userService.infoIdEmail(infoSign.info.email);
       return {
         message: `Wellcome, ${infoSign.info.name}!`,
         code: '201',
         value: AccessUser.ALLOWED,
         info: {
-          idUser: await this.userService.infoIdEmail(infoSign.info.email),
+          idUser,
           idCart: infoSign.info.idCart,
           idFavorite: infoSign.info.idFavorite,
           nameLevel: infoSign.info.nameLevel,
           nameUser: infoSign.info.name,
           profilePicture: infoSign.info.profilePicture,
+          access_token: await this._createTokenAccess({
+            sub: idUser,
+            email: infoSign.info.email,
+          }),
         },
       };
     } catch (error) {

@@ -104,6 +104,11 @@
             └── 📁schema
                 └── level.schema.ts
         └── main.ts
+        └── 📁middlewares
+            └── regex.ts
+            └── 📁subscribre
+                └── subscribre.middleware.spec.ts
+                └── subscribre.middleware.ts
         └── 📁password
             └── 📁dto
                 └── chengePassword.dto.ts
@@ -140,6 +145,9 @@
         └── 📁sign
             └── 📁dto
                 └── sign.dto.ts
+            └── 📁guard
+                └── auth.guard.guard.guard.spec.ts
+                └── auth.guard.guard.guard.ts
             └── 📁interface
                 └── responseSing.interface.ts
                 └── sign.interface.ts
