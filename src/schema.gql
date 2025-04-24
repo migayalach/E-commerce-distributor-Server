@@ -95,7 +95,6 @@ input CreateUserDto {
   idLevel: ID!
   lastName: String!
   name: String!
-  password: String!
   phone: Float!
   profilePicture: String
 }
