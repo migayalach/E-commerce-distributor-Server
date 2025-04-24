@@ -14,12 +14,16 @@ import {
 } from './interface/product.interface';
 import { ResProduct } from '@interface/data.info.interface';
 import { clearDataProduct } from '../../helpers/clearData.helpers';
+import { EmailService } from 'src/email/email.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
     private categoryService: CategoryService,
+    private emailService: EmailService,
+    private userService: UserService,
   ) {}
 
   async getAllListProducts(): Promise<Types.ObjectId[]> {
@@ -36,8 +40,30 @@ export class ProductsService {
       stock: newStock,
     });
     const dataStock = await this.getIdProduct(idProduct);
-    if (dataStock.stock === 0) {
+    if (dataStock.stock > 0 && dataStock.stock <= 10) {
+      const listAdmins = await this.userService.getAllUsersAdmins();
+      await Promise.all(
+        listAdmins.map(async ({ name, email }) => {
+          return await this.emailService.sendEmailItemMin(
+            email,
+            name,
+            productStock.nameProduct,
+            productStock.stock,
+          );
+        }),
+      );
+    } else if (dataStock.stock === 0) {
       await this.productModel.findByIdAndUpdate(idProduct, { state: false });
+      const listAdmins = await this.userService.getAllUsersAdmins();
+      await Promise.all(
+        listAdmins.map(async ({ name, email }) => {
+          return await this.emailService.sendEmailItemCero(
+            email,
+            name,
+            productStock.nameProduct,
+          );
+        }),
+      );
     }
     return;
   }

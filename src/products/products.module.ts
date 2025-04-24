@@ -4,10 +4,15 @@ import { ProductsResolver } from './products.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Product, ProductSchema } from './schema/product.schema';
 import { CategoryModule } from 'src/category/category.module';
+import { EmailModule } from 'src/email/email.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
     CategoryModule,
+    EmailModule,
+    ProductsModule,
+    UserModule,
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
   ],
   exports: [ProductsService],
