@@ -76,6 +76,10 @@
                 └── detail.interface.ts
             └── 📁schema
                 └── detail.schema.ts
+        └── 📁email
+            └── email.module.ts
+            └── email.service.spec.ts
+            └── email.service.ts
         └── 📁favorite
             └── 📁dto
                 └── actionFavorite.dto.ts
@@ -104,11 +108,6 @@
             └── 📁schema
                 └── level.schema.ts
         └── main.ts
-        └── 📁middlewares
-            └── regex.ts
-            └── 📁subscribre
-                └── subscribre.middleware.spec.ts
-                └── subscribre.middleware.ts
         └── 📁password
             └── 📁dto
                 └── chengePassword.dto.ts
@@ -191,6 +190,7 @@
     └── 📁types
         └── response.type.ts
     └── 📁utils
+        └── generatePassword.util.ts
         └── info.util.ts
         └── navegation.util.ts
         └── response.util.ts

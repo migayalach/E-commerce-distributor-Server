@@ -5,6 +5,14 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('distributor');
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://miapp.vercel.app',
+    ],
+    allowedHeaders: 'Authorization, Content-Type',
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
