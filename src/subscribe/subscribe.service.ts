@@ -8,10 +8,12 @@ import { ApolloError } from 'apollo-server-express';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { DataSubs } from './interface/subscribe.interface';
 import { ResSubscription } from '@interface/data.info.interface';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class SubscribeService {
   constructor(
+    private emailService: EmailService,
     @InjectModel(Subscribe.name) private subscribeModel: Model<Subscribe>,
   ) {}
 
@@ -46,6 +48,7 @@ export class SubscribeService {
         throw new ApolloError('This email is already subscribed', 'CONFLICT');
       }
       const data = new this.subscribeModel(dataInput);
+      await this.emailService.sendEmailSubscribe(dataInput.email);
       const newsubs = await data.save();
       return {
         message: 'Subscription created successfully.',
