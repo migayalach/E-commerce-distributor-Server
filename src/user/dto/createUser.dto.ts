@@ -41,11 +41,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   phone: number;
 
-  @Field({ nullable: false })
-  @MinLength(8, { message: '' })
-  @IsNotEmpty()
-  password: string;
-
   @Field({ nullable: true })
   @IsOptional()
   profilePicture?: string;

@@ -18,6 +18,8 @@ import * as bcrypt from 'bcrypt';
 import { saltOrRounds, urlWithOutImage } from '../../constants';
 import { Cart } from 'src/cart/schema/cart.schema';
 import { Favorite } from 'src/favorite/schema/favorite.schema';
+import { EmailService } from 'src/email/email.service';
+import { generatePassword } from '@utils/generatePassword.util';
 
 interface UsersInfo {
   idUser: Types.ObjectId;
@@ -32,7 +34,14 @@ export class UserService {
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
     @InjectModel(Favorite.name) private favoriteModel: Model<Favorite>,
     private levelService: LevelService,
+    private emailService: EmailService,
   ) {}
+
+  async getAllUsersAdmins() {
+    const dataLevel = await this.levelService.getAdminInfo();
+    const listUser = await this.userModel.find({ idLevel: dataLevel });
+    return listUser.map(({ _id, name, email }) => ({ _id, name, email }));
+  }
 
   async getAllListUsers(): Promise<UsersInfo[]> {
     const dataUser: DataOriginUser[] = await this.userModel
@@ -131,6 +140,7 @@ export class UserService {
       await this.existEmail(dataUser.email.trim());
       await this.existCarnet(dataUser.carnet.trim());
       await this.levelService.getIdLevel(dataUser.idLevel);
+      const randomPassword = generatePassword();
       const data = new this.userModel({
         ...dataUser,
         profilePicture:
@@ -138,7 +148,7 @@ export class UserService {
             ? urlWithOutImage
             : dataUser.profilePicture,
         idLevel: new Types.ObjectId(dataUser.idLevel),
-        password: await bcrypt.hash(dataUser.password, saltOrRounds),
+        password: await bcrypt.hash(randomPassword, saltOrRounds),
       });
       await data.save();
       const favoriteAdd = new this.favoriteModel({
@@ -148,6 +158,11 @@ export class UserService {
       const cartAdd = new this.cartModel({
         idUser: data._id,
       });
+      await this.emailService.sendEmailNewUser(
+        dataUser.email,
+        dataUser.name,
+        randomPassword,
+      );
       await cartAdd.save();
       await this.userModel.findByIdAndUpdate(data._id, {
         idFavorite: favoriteAdd._id,
