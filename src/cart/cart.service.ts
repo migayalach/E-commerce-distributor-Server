@@ -42,7 +42,7 @@ export class CartService {
         const { stock } = await this.productService.getIdProduct(
           dataCart.idProduct,
         );
-        if (dataCart.amount >= stock) {
+        if (dataCart.amount > stock) {
           throw new ApolloError(
             'We are sorry, our stock is less than what you requested.',
             'NOT_FOUND',
