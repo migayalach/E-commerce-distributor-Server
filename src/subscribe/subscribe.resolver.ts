@@ -5,11 +5,14 @@ import { PagSubsResponse } from './dto/pag-subs-res.dto';
 import { Response } from '@interface/response.results.interface';
 import { SubscribeResponse } from './interface/responseData.interface';
 import { ResSubscription } from '@interface/data.info.interface';
+import { AuthGuard } from 'src/sign/guard/auth.guard.guard.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver('Subscribe')
 export class SubscribeResolver {
   constructor(private readonly subscribeService: SubscribeService) {}
 
+  @UseGuards(AuthGuard)
   @Query(() => PagSubsResponse)
   async getSubscribe(
     @Args('page', { type: () => Int, nullable: true }) page: number = 1,
@@ -24,6 +27,7 @@ export class SubscribeResolver {
     return await this.subscribeService.addSubEmail(dataInput);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => SubscribeResponse)
   async deleteSubscribe(
     @Args('email', { type: () => String, nullable: false })

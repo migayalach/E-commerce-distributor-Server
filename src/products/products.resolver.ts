@@ -8,6 +8,8 @@ import { PagProductResponse } from './dto/pag-product-res.dto';
 import { Response } from '@interface/response.results.interface';
 import { DataProductRes } from './interface/product.interface';
 import { ResProduct } from '@interface/data.info.interface';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/sign/guard/auth.guard.guard.guard';
 
 @Resolver('Product')
 export class ProductsResolver {
@@ -28,6 +30,7 @@ export class ProductsResolver {
     return await this.productsService.getIdProduct(idProduct);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => ProductResponse)
   async createProduct(
     @Args('dataProduct') dataProduct: CreateProductDto,
@@ -35,6 +38,7 @@ export class ProductsResolver {
     return await this.productsService.addProduct(dataProduct);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => ProductResponse)
   async updateProduct(
     @Args('dataPruduct') dataProduct: UpdateProductDto,
@@ -42,6 +46,7 @@ export class ProductsResolver {
     return await this.productsService.updateProduct(dataProduct);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => ProductResponse)
   async deleteProduct(
     @Args('idProduct', { type: () => String, nullable: false })

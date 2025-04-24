@@ -5,11 +5,14 @@ import { ResponseInfo } from '@interface/response.interface';
 import { PagCartResponse } from './dto/pag-cart-res.dto';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { Response } from '@interface/response.results.interface';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/sign/guard/auth.guard.guard.guard';
 
 @Resolver('Cart')
 export class CartResolver {
   constructor(private readonly cartService: CartService) {}
 
+  @UseGuards(AuthGuard)
   @Query(() => PagCartResponse)
   async getAllIdCart(
     @Args('idCart', { type: () => String, nullable: false }) idCart: string,
@@ -18,6 +21,7 @@ export class CartResolver {
     return await this.cartService.getListCart(idCart, page);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => ResponseInfo)
   async actionCart(
     @Args('dataCart') dataCart: ActionCartDto,
@@ -25,6 +29,7 @@ export class CartResolver {
     return await this.cartService.actionCart(dataCart);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => ResponseInfo)
   async deleleItemCart(
     @Args('idProduct', { type: () => String, nullable: false })
@@ -34,6 +39,7 @@ export class CartResolver {
     return await this.cartService.removeItemCart(idProduct, idCart);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => ResponseInfo)
   async clearCart(
     @Args('idCart', { type: () => String, nullable: false }) idCart: string,
