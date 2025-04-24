@@ -11,7 +11,6 @@ import { UserModule } from 'src/user/user.module';
   imports: [
     CategoryModule,
     EmailModule,
-    ProductsModule,
     UserModule,
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
   ],
