@@ -23,6 +23,7 @@ export class FavoriteResolver {
     return await this.favoriteService.getListFavorites(idFavorite, page);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => ResponseInfo)
   async actionFavorite(
     @Args('dataFavorite') dataFavorite: ActionFavoriteDto,

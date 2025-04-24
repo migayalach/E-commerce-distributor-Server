@@ -8,11 +8,14 @@ import { Response } from '@interface/response.results.interface';
 import { Category } from './schema/category.schema';
 import { DataCategory } from './interface/category.interface';
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/sign/guard/auth.guard.guard.guard';
 
 @Resolver('Category')
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @UseGuards(AuthGuard)
   @Mutation(() => CategoryResponse)
   async createCategory(
     @Args('infoCategory') infoCategory: CreateCategoryDto,
@@ -27,6 +30,7 @@ export class CategoryResolver {
     return await this.categoryService.getAllCategories(page);
   }
 
+  @UseGuards(AuthGuard)
   @Query(() => Category)
   async getIdCategory(
     @Args('idCategory', { type: () => String, nullable: false })
@@ -35,6 +39,7 @@ export class CategoryResolver {
     return await this.categoryService.getIdCategory(idCategory);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => CategoryResponse)
   async updateCategory(
     @Args('infoCategory') infoCategory: UpdateCategoryDto,
@@ -42,6 +47,7 @@ export class CategoryResolver {
     return await this.categoryService.refreshCategory(infoCategory);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => CategoryResponse)
   async removeCategory(
     @Args('idCategory', { type: () => String, nullable: false })
