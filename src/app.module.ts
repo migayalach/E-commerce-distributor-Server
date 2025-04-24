@@ -16,6 +16,7 @@ import { BuyModule } from './buy/buy.module';
 import { DetailModule } from './detail/detail.module';
 import { SignModule } from './sign/sign.module';
 import { EmailModule } from './email/email.module';
+import { FiltersModule } from './filters/filters.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { EmailModule } from './email/email.module';
     DetailModule,
     SignModule,
     EmailModule,
+    FiltersModule,
   ],
   controllers: [],
   providers: [],
