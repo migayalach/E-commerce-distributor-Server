@@ -13,7 +13,10 @@ async function bootstrap() {
   //   ],
   //   allowedHeaders: 'Authorization, Content-Type',
   // });
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    allowedHeaders: 'Authorization, Content-Type',
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
