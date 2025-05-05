@@ -14,8 +14,10 @@ async function bootstrap() {
   //   allowedHeaders: 'Authorization, Content-Type',
   // });
   app.enableCors({
-    origin: '',
-    allowedHeaders: 'Authorization, Content-Type',
+    origin: ['http://localhost:3000', 'https://miapp.vercel.app'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
   });
   app.useGlobalPipes(
     new ValidationPipe({
