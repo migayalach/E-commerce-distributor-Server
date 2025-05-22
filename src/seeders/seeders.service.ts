@@ -86,7 +86,7 @@ export class SeedersService {
     while (c < level.length) {
       const information = await this.levelService.addLevel(level[c]);
       for (let i = 0; i < dimention; i++) {
-        await this.userService.addUser({
+        await this.userService.addUserUp({
           idLevel: information.info._id,
           ...listUsers[current],
         });
