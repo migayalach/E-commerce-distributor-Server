@@ -14,6 +14,7 @@ export class EmailService {
   });
 
   public async sendEmailSubscribe(email: string) {
+    if (process.env.SKIP_AUTH === 'true') return;
     try {
       await this.transporter.sendMail({
         from: process.env.EMAIL,
@@ -39,6 +40,7 @@ export class EmailService {
     nameUser: string,
     password: string,
   ) {
+    if (process.env.SKIP_AUTH === 'true') return;
     try {
       await this.transporter.sendMail({
         from: process.env.EMAIL,
@@ -66,6 +68,7 @@ export class EmailService {
     product: string,
     stock: number,
   ) {
+    if (process.env.SKIP_AUTH === 'true') return;
     try {
       await this.transporter.sendMail({
         from: process.env.EMAIL,
@@ -92,6 +95,7 @@ export class EmailService {
     nameUser: string,
     product: string,
   ) {
+    if (process.env.SKIP_AUTH === 'true') return;
     try {
       await this.transporter.sendMail({
         from: process.env.EMAIL,
@@ -115,6 +119,7 @@ export class EmailService {
   }
 
   public sendEmailCatalogProducts(email: string, nameUser: string) {
+    if (process.env.SKIP_AUTH === 'true') return;
     try {
       return `${email} - ${nameUser}`;
     } catch (error) {

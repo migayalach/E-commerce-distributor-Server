@@ -101,7 +101,7 @@ export class SignService {
   async signUp(dataSignUp: SignUpDto): Promise<SignData> {
     try {
       const infoLevel = await this.levelService.countLevelDim();
-      const infoSign = await this.userService.addUser({
+      const infoSign = await this.userService.addUserUp({
         idLevel: String(infoLevel?._id),
         ...dataSignUp,
       });

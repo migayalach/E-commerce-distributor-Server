@@ -100,7 +100,7 @@ export class DetailService {
             String(data.listProduct[i].idProduct),
           );
         objProduct.nameProduct = nameProduct;
-        objProduct.imageProduct = imageProduct;
+        objProduct.imageProduct = imageProduct[0];
         dataDetail.push(objProduct);
       }
       return responseDetail(dataDetail, page, data.totalBuy);

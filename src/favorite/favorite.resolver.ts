@@ -5,12 +5,22 @@ import { ResponseInfo } from '@interface/response.interface';
 import { PagFavoriteResponse } from './dto/pag-favorite-res.dto';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { Response } from '@interface/response.results.interface';
+import { FavoriteModelGQL } from '@model/favorite.model';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/sign/guard/auth.guard.guard.guard';
 
 @Resolver('Favorite')
 export class FavoriteResolver {
   constructor(private readonly favoriteService: FavoriteService) {}
+
+  @UseGuards(AuthGuard)
+  @Query(() => [FavoriteModelGQL])
+  async getAllListFavorite(
+    @Args('idFavorite', { type: () => String, nullable: false })
+    idFavorite: string,
+  ): Promise<FavoriteModelGQL[]> {
+    return await this.favoriteService.getAllFavorite(idFavorite);
+  }
 
   @UseGuards(AuthGuard)
   @Query(() => PagFavoriteResponse)

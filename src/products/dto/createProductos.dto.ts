@@ -1,5 +1,7 @@
 import { InputType, Field, ID } from '@nestjs/graphql';
 import {
+  ArrayMinSize,
+  IsArray,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -23,10 +25,12 @@ export class CreateProductDto {
   @Min(0, { message: 'The price cannot be less than 0.' })
   price: number;
 
-  @Field()
-  @IsString()
-  @IsNotEmpty()
-  imageProduct: string;
+  @Field(() => [String])
+  @IsArray()
+  @ArrayMinSize(1, { message: 'Please enter an image.' })
+  @IsString({ each: true })
+  @IsNotEmpty({ each: true })
+  imageProduct: string[];
 
   @Field()
   @IsNumber()

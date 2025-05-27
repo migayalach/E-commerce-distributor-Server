@@ -6,7 +6,7 @@ export interface DataProduct {
   nameProduct: string;
   price: number;
   stock: number;
-  imageProduct: string;
+  imageProduct: string[];
   state: boolean;
 }
 

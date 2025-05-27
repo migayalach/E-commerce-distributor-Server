@@ -15,8 +15,8 @@ export class Product extends Document {
   @Prop({ required: true })
   stock: number;
 
-  @Prop({ required: true })
-  imageProduct: string;
+  @Prop({ type: [String], required: true })
+  imageProduct: string[];
 
   @Prop({ default: true })
   state: boolean;

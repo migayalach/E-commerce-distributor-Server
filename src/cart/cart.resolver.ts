@@ -5,12 +5,21 @@ import { ResponseInfo } from '@interface/response.interface';
 import { PagCartResponse } from './dto/pag-cart-res.dto';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { Response } from '@interface/response.results.interface';
+import { CartModelGQL } from '@model/cart.model';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/sign/guard/auth.guard.guard.guard';
 
 @Resolver('Cart')
 export class CartResolver {
   constructor(private readonly cartService: CartService) {}
+
+  @UseGuards(AuthGuard)
+  @Query(() => [CartModelGQL])
+  async getAllCart(
+    @Args('idCart', { type: () => String, nullable: false }) idCart: string,
+  ): Promise<CartModelGQL[]> {
+    return await this.cartService.getAllList(idCart);
+  }
 
   @UseGuards(AuthGuard)
   @Query(() => PagCartResponse)

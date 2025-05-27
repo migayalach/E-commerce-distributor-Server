@@ -20,6 +20,7 @@ import { Cart } from 'src/cart/schema/cart.schema';
 import { Favorite } from 'src/favorite/schema/favorite.schema';
 import { EmailService } from 'src/email/email.service';
 import { generatePassword } from '@utils/generatePassword.util';
+import { CreateUserUpDto } from './dto/createUserUp.dto';
 
 interface UsersInfo {
   idUser: Types.ObjectId;
@@ -181,6 +182,56 @@ export class UserService {
       }
       throw new ApolloError(
         'An unexpected error occurred while creating the new user.',
+        'INTERNAL_ERROR',
+      );
+    }
+  }
+
+  async addUserUp(dataUser: CreateUserUpDto): Promise<ResUser> {
+    try {
+      await this.existEmail(dataUser.email.trim());
+      await this.existCarnet(dataUser.carnet.trim());
+      await this.levelService.getIdLevel(dataUser.idLevel);
+      const data = new this.userModel({
+        ...dataUser,
+        profilePicture:
+          dataUser.profilePicture === ''
+            ? urlWithOutImage
+            : dataUser.profilePicture,
+        idLevel: new Types.ObjectId(dataUser.idLevel),
+        password: await bcrypt.hash(dataUser.password, saltOrRounds),
+      });
+      await data.save();
+      const favoriteAdd = new this.favoriteModel({
+        idUser: data._id,
+      });
+      await favoriteAdd.save();
+      const cartAdd = new this.cartModel({
+        idUser: data._id,
+      });
+      await this.emailService.sendEmailNewUser(
+        dataUser.email,
+        dataUser.name,
+        dataUser.password,
+      );
+      await cartAdd.save();
+      await this.userModel.findByIdAndUpdate(data._id, {
+        idFavorite: favoriteAdd._id,
+        idCart: cartAdd._id,
+      });
+      const userData: DataUserRes = await this.getIdUser(String(data._id));
+      return {
+        message: 'User create successfully.',
+        code: '201',
+        value: 'created-user',
+        info: userData,
+      };
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while registering your data.',
         'INTERNAL_ERROR',
       );
     }

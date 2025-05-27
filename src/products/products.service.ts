@@ -124,7 +124,7 @@ export class ProductsService {
         })
         .select('-__v');
       if (existName.length) {
-        if (existName[0].nameProduct === dataProduct.imageProduct) {
+        if (existName[0].nameProduct === dataProduct.nameProduct) {
           throw new ApolloError(
             'This name is already registered, please enter another one',
             'CONFLICT',

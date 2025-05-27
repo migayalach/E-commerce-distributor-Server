@@ -104,7 +104,7 @@ export const clearlistFavProduct = (product: DataProductRes) => {
     idProduct: product._id.toString(),
     nameProduct: product.nameProduct,
     price: product.price,
-    imageProduct: product.imageProduct,
+    imageProduct: product.imageProduct[0],
     stock: product.stock,
   };
   return data;
@@ -124,7 +124,7 @@ export const clearlistCartProduct = (product: DataProductCartRes) => {
     idProduct: product._id.toString(),
     nameProduct: product.nameProduct,
     price: product.price,
-    imageProduct: product.imageProduct,
+    imageProduct: product.imageProduct[0],
     stock: product.stock,
     amount: product.amount,
   };

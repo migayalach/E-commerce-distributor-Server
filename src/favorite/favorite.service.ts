@@ -12,6 +12,7 @@ import { DataProductFavorite } from 'src/products/interface/product.interface';
 import { clearlistFavProduct } from 'helpers/clearData.helpers';
 import { response } from '@utils/response.util';
 import { PagFavoriteResponse } from './dto/pag-favorite-res.dto';
+import { FavoriteModelGQL } from '@model/favorite.model';
 
 @Injectable()
 export class FavoriteService {
@@ -19,6 +20,23 @@ export class FavoriteService {
     private productService: ProductsService,
     @InjectModel(Favorite.name) private favoriteModel: Model<Favorite>,
   ) {}
+
+  async getAllFavorite(idFavorite: string): Promise<FavoriteModelGQL[]> {
+    const data: FavoriteUserList | null = await this.favoriteModel
+      .findById(idFavorite)
+      .select('listProducts');
+    const arrayProduct: DataProductFavorite[] = [];
+    if (!data) {
+      return [];
+    }
+    for (let i = 0; i < data.listProducts.length; i++) {
+      const infoProduct = await this.productService.getIdProduct(
+        data.listProducts[i].toString(),
+      );
+      arrayProduct.push(clearlistFavProduct(infoProduct));
+    }
+    return arrayProduct;
+  }
 
   async getListFavorites(
     idFavorite: string,

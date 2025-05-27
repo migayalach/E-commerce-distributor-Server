@@ -11,6 +11,7 @@ import { PagCartResponse } from './dto/pag-cart-res.dto';
 import { CartUserList, DataProductsCart } from './interface/cart.interface';
 import { response } from '@utils/response.util';
 import { clearlistCartProduct } from 'helpers/clearData.helpers';
+import { CartModelGQL } from '@model/cart.model';
 
 @Injectable()
 export class CartService {
@@ -18,6 +19,26 @@ export class CartService {
     private productService: ProductsService,
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
   ) {}
+
+  async getAllList(idCart: string): Promise<CartModelGQL[]> {
+    const data = await this.getAllListCartUser(idCart);
+    const arrayProduct: DataProductsCart[] = [];
+    if (!data) {
+      return [];
+    }
+    for (let i = 0; i < data.listProducts.length; i++) {
+      const infoProduct = await this.productService.getIdProduct(
+        data.listProducts[i].idProduct.toString(),
+      );
+      arrayProduct.push(
+        clearlistCartProduct({
+          ...infoProduct,
+          amount: data.listProducts[i].amount,
+        }),
+      );
+    }
+    return arrayProduct;
+  }
 
   async getAllListCartUser(idCart: string) {
     const data: CartUserList | null = await this.cartModel
