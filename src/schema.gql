@@ -79,7 +79,7 @@ input CreateLevelDto {
 
 input CreateProductDto {
   idCategory: ID!
-  imageProduct: String!
+  imageProduct: [String!]!
   nameProduct: String!
   price: Float!
   stock: Float!
@@ -213,7 +213,7 @@ type PagUserResponse {
 type ProductModel {
   _id: ID!
   idCategory: ID!
-  imageProduct: String!
+  imageProduct: [String!]!
   nameCategory: String!
   nameProduct: String!
   price: Float!
@@ -230,9 +230,11 @@ type ProductResponse {
 
 type Query {
   getAllBuy(idUser: String!, page: Int): PagBuyResponse!
+  getAllCart(idCart: String!): [CartModelGQL!]!
   getAllIdCart(idCart: String!, page: Int): PagCartResponse!
   getAllIdFavorite(idFavorite: String!, page: Int): PagFavoriteResponse!
   getAllLevel(page: Int): PagLevelResponse!
+  getAllListFavorite(idFavorite: String!): [FavoriteModelGQL!]!
   getCategory(page: Int): PagCategoryResponse!
   getIdCategory(idCategory: String!): Category!
   getIdDetail(idBuy: String!, page: Int): PagDetailResponse!
@@ -291,7 +293,7 @@ input UpdateCategoryDto {
 input UpdateProductDto {
   idCategory: ID!
   idProduct: ID!
-  imageProduct: String
+  imageProduct: [String!]
   nameProduct: String
   price: Float
   state: Boolean
