@@ -7,11 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('distributor');
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'https://miapp.vercel.app',
-    ],
+    origin: ['http://localhost:3000', 'https://miapp.vercel.app'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['POST'],
     credentials: true,
