@@ -156,7 +156,7 @@ type Mutation {
   deleteSubscribe(email: String!): SubscribeResponse!
   deleteUser(idUser: String!): UserResponse!
   in(dataSignIn: SignInDto!): SignResponse!
-  refreshToken(refreshToken: String!): String!
+  refreshToken: String!
   removeCategory(idCategory: String!): CategoryResponse!
   up(dataSignUp: SignUpDto!): SignResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
@@ -319,7 +319,6 @@ type UserAccess {
   nameLevel: String!
   nameUser: String!
   profilePicture: String!
-  refresh_token: String!
 }
 
 type UserIdModelGQL {
