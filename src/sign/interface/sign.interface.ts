@@ -6,7 +6,6 @@ interface infoSignUp {
   nameUser: string;
   profilePicture: string;
   access_token: string;
-  refresh_token: string;
 }
 
 export interface SignData {
