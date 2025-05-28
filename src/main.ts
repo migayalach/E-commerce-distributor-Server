@@ -1,24 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('distributor');
-  // app.enableCors({
-  //   origin: [
-  //     'http://localhost:3000',
-  //     'http://localhost:3001',
-  //     'https://miapp.vercel.app',
-  //   ],
-  //   allowedHeaders: 'Authorization, Content-Type',
-  // });
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://miapp.vercel.app'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://miapp.vercel.app',
+    ],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['POST'],
     credentials: true,
   });
+  app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
