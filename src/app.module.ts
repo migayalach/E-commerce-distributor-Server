@@ -32,6 +32,10 @@ import { FiltersModule } from './filters/filters.module';
       sortSchema: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       debug: true,
+      context: ({ req, res }: { req: Request; res: Response }) => ({
+        req,
+        res,
+      }),
     }),
     SubscribeModule,
     CategoryModule,
