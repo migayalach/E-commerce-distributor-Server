@@ -26,3 +26,21 @@ export enum AccessUser {
 registerEnumType(AccessUser, {
   name: 'AccessUser',
 });
+
+export enum OrderPrice {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+registerEnumType(OrderPrice, {
+  name: 'OrderPrice',
+});
+
+export enum OrderName {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+registerEnumType(OrderName, {
+  name: 'OrderName',
+});
