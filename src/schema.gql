@@ -164,11 +164,6 @@ type Mutation {
   updateUser(dataUser: UpdateUserDto!): UserResponse!
 }
 
-enum OrderPrice {
-  ASC
-  DESC
-}
-
 type PagBuyResponse {
   info: Info!
   results: [BuyModelGQL!]!
@@ -234,8 +229,8 @@ type ProductResponse {
 }
 
 type Query {
-  findCategory(idCategory: String!, page: Int, price: OrderPrice): PagProductResponse!
-  findProduct(page: Int, price: OrderPrice, product: String): PagProductResponse!
+  findCategory(idCategory: String!, page: Int): PagProductResponse!
+  findProduct(page: Int, product: String): PagProductResponse!
   getAllBuy(idUser: String!, page: Int): PagBuyResponse!
   getAllCart(idCart: String!): [CartModelGQL!]!
   getAllIdCart(idCart: String!, page: Int): PagCartResponse!

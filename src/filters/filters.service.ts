@@ -18,7 +18,7 @@ export class FiltersService {
     private categoryService: CategoryService,
   ) {}
 
-  async searchProduct(product: string, price: string, page: number) {
+  async searchProduct(product: string, page: number) {
     try {
       const dataProduct: DataOriginProduct[] = await this.productModel
         .find({
@@ -29,7 +29,7 @@ export class FiltersService {
 
       if (!dataProduct.length) {
         throw new ApolloError(
-          'Please enter the name of the product you are looking for?',
+          'Sorry, the product you are looking for does not exist.',
           'NOT_FOUND',
         );
       }
@@ -41,31 +41,19 @@ export class FiltersService {
         const infoProduct = clearDataProduct(dataProduct[i], dataCategory);
         productInfo.push(infoProduct);
       }
-
-      if (price) {
-        const sortedProducts = productInfo.sort((a, b) => {
-          if (price === 'DESC') {
-            return b.price - a.price;
-          }
-          return a.price - b.price;
-        });
-
-        return response(sortedProducts, page);
-      } else {
-        return response(productInfo, page);
-      }
+      return response(productInfo, page);
     } catch (error) {
       if (error instanceof ApolloError) {
         throw error;
       }
       throw new ApolloError(
-        'An unexpected error occurred while searching for the product.',
+        'Sorry, the product you are looking for does not exist.',
         'INTERNAL_SERVER_ERROR',
       );
     }
   }
 
-  async searchCategoryProduct(idCategory: string, price: string, page: number) {
+  async searchCategoryProduct(idCategory: string, page: number) {
     try {
       const dataProduct: DataOriginProduct[] = await this.productModel
         .find({
@@ -89,19 +77,7 @@ export class FiltersService {
         const infoProduct = clearDataProduct(dataProduct[i], dataCategory);
         productInfo.push(infoProduct);
       }
-
-      if (price) {
-        const sortedProducts = productInfo.sort((a, b) => {
-          if (price === 'DESC') {
-            return b.price - a.price;
-          }
-          return a.price - b.price;
-        });
-
-        return response(sortedProducts, page);
-      } else {
-        return response(productInfo, page);
-      }
+      return response(productInfo, page);
     } catch (error) {
       if (error instanceof ApolloError) {
         throw error;
