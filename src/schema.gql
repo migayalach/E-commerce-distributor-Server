@@ -30,6 +30,12 @@ input ActionFavoriteDto {
   idProduct: ID!
 }
 
+input AddFeatbacktDto {
+  featback: String!
+  idProduct: ID!
+  idUser: ID!
+}
+
 type BuyModelGQL {
   _id: ID!
   code: String!
@@ -104,6 +110,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DeleteFeatbacktDto {
+  idFeatback: ID
+  idProduct: ID!
+}
+
 type DetailModelGQL {
   amount: Float!
   idProduct: ID!
@@ -143,6 +154,8 @@ type LevelResponse {
 type Mutation {
   actionCart(dataCart: ActionCartDto!): ResponseInfo!
   actionFavorite(dataFavorite: ActionFavoriteDto!): ResponseInfo!
+  addFeatback(dataFeatback: AddFeatbacktDto!): ResponseInfo!
+  addQualification: ResponseInfo!
   changePassword(dataPassword: ChangePasswordDto!): ResponseInfo!
   clearCart(idCart: String!): ResponseInfo!
   createBuy(shoppingList: CreateBuyDto!): ResponseInfo!
@@ -152,15 +165,20 @@ type Mutation {
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
   createUser(dataUser: CreateUserDto!): UserResponse!
   deleleItemCart(idCart: String!, idProduct: String!): ResponseInfo!
+  deleteFeatback(dataFeatback: DeleteFeatbacktDto!): ResponseInfo!
   deleteProduct(idProduct: String!): ProductResponse!
   deleteSubscribe(email: String!): SubscribeResponse!
   deleteUser(idUser: String!): UserResponse!
   in(dataSignIn: SignInDto!): SignResponse!
   refreshToken: String!
   removeCategory(idCategory: String!): CategoryResponse!
+  removeLevel(idLevel: String!): LevelResponse!
   up(dataSignUp: SignUpDto!): SignResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
+  updateFeatbck(dataFeatback: UpdateFeatbacktDto!): ResponseInfo!
+  updateLevel(dataLevel: UpdateLevelDto!): LevelResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
+  updateQualification: ResponseInfo!
   updateUser(dataUser: UpdateUserDto!): UserResponse!
 }
 
@@ -290,6 +308,17 @@ type SubscribeResponse {
 input UpdateCategoryDto {
   idCategory: ID!
   nameCategory: String
+}
+
+input UpdateFeatbacktDto {
+  featback: String!
+  idFeatback: ID
+  idProduct: ID!
+}
+
+input UpdateLevelDto {
+  idLevel: ID!
+  nameLevel: String!
 }
 
 input UpdateProductDto {
