@@ -1,212 +1,242 @@
 ```
 └── 📁distributor-server
     └── 📁.vscode
-        └── settings.json
+        ├── settings.json
     └── 📁enum
-        └── filters.enum.ts
-        └── options.enum.ts
+        ├── options.enum.ts
+    └── 📁github
     └── 📁helpers
-        └── auxFunction.helpers.ts
-        └── clearData.helpers.ts
+        ├── auxFunction.helpers.ts
+        ├── clearData.helpers.ts
     └── 📁interface
-        └── data.info.interface.ts
-        └── info.interface.ts
-        └── response.interface.ts
-        └── response.results.interface.ts
+        ├── data.info.interface.ts
+        ├── info.interface.ts
+        ├── response.interface.ts
+        ├── response.results.interface.ts
     └── 📁models
-        └── buy.model.ts
-        └── cart.model.ts
-        └── detail.model.ts
-        └── favorite.model.ts
-        └── product.model.ts
-        └── user.model.ts
+        ├── buy.model.ts
+        ├── cart.model.ts
+        ├── detail.model.ts
+        ├── favorite.model.ts
+        ├── product.model.ts
+        ├── user.model.ts
     └── 📁src
-        └── app.controller.spec.ts
-        └── app.module.ts
         └── 📁buy
-            └── buy.module.ts
-            └── buy.resolver.spec.ts
-            └── buy.resolver.ts
-            └── buy.service.spec.ts
-            └── buy.service.ts
             └── 📁dto
-                └── createBuy.dto.ts
-                └── pag-buy-res.dto.ts
+                ├── createBuy.dto.ts
+                ├── pag-buy-res.dto.ts
             └── 📁interface
-                └── buy.interface.ts
+                ├── buy.interface.ts
             └── 📁schema
-                └── buy.schema.ts
+                ├── buy.schema.ts
+            ├── buy.module.ts
+            ├── buy.resolver.spec.ts
+            ├── buy.resolver.ts
+            ├── buy.service.spec.ts
+            ├── buy.service.ts
         └── 📁cart
-            └── cart.module.ts
-            └── cart.resolver.spec.ts
-            └── cart.resolver.ts
-            └── cart.service.spec.ts
-            └── cart.service.ts
             └── 📁dto
-                └── actionCart.dto.ts
-                └── pag-cart-res.dto.ts
+                ├── actionCart.dto.ts
+                ├── pag-cart-res.dto.ts
             └── 📁interface
-                └── cart.interface.ts
+                ├── cart.interface.ts
             └── 📁schema
-                └── cart.schema.ts
+                ├── cart.schema.ts
+            ├── cart.module.ts
+            ├── cart.resolver.spec.ts
+            ├── cart.resolver.ts
+            ├── cart.service.spec.ts
+            ├── cart.service.ts
         └── 📁category
-            └── category.module.ts
-            └── category.resolver.spec.ts
-            └── category.resolver.ts
-            └── category.service.spec.ts
-            └── category.service.ts
             └── 📁dto
-                └── createCategory.dto.ts
-                └── pag-category-res.dto.ts
-                └── updateCategory.dto.ts
+                ├── createCategory.dto.ts
+                ├── pag-category-res.dto.ts
+                ├── updateCategory.dto.ts
             └── 📁interface
-                └── category.interface.ts
-                └── responseData.interface.ts
+                ├── category.interface.ts
+                ├── responseData.interface.ts
             └── 📁schema
-                └── category.schema.ts
+                ├── category.schema.ts
+            ├── category.module.ts
+            ├── category.resolver.spec.ts
+            ├── category.resolver.ts
+            ├── category.service.spec.ts
+            ├── category.service.ts
         └── 📁detail
-            └── detail.module.ts
-            └── detail.resolver.spec.ts
-            └── detail.resolver.ts
-            └── detail.service.spec.ts
-            └── detail.service.ts
             └── 📁dto
-                └── pag-detail-res.dto.ts
+                ├── pag-detail-res.dto.ts
             └── 📁interface
-                └── detail.interface.ts
+                ├── detail.interface.ts
             └── 📁schema
-                └── detail.schema.ts
+                ├── detail.schema.ts
+            ├── detail.module.ts
+            ├── detail.resolver.spec.ts
+            ├── detail.resolver.ts
+            ├── detail.service.spec.ts
+            ├── detail.service.ts
         └── 📁email
-            └── email.module.ts
-            └── email.service.spec.ts
-            └── email.service.ts
+            ├── email.module.ts
+            ├── email.service.spec.ts
+            ├── email.service.ts
         └── 📁favorite
             └── 📁dto
-                └── actionFavorite.dto.ts
-                └── pag-favorite-res.dto.ts
-            └── favorite.module.ts
-            └── favorite.resolver.spec.ts
-            └── favorite.resolver.ts
-            └── favorite.service.spec.ts
-            └── favorite.service.ts
+                ├── actionFavorite.dto.ts
+                ├── pag-favorite-res.dto.ts
             └── 📁interface
-                └── favorite.interface.ts
+                ├── favorite.interface.ts
             └── 📁schema
-                └── favorite.schema.ts
+                ├── favorite.schema.ts
+            ├── favorite.module.ts
+            ├── favorite.resolver.spec.ts
+            ├── favorite.resolver.ts
+            ├── favorite.service.spec.ts
+            ├── favorite.service.ts
+        └── 📁featback
+            └── 📁dto
+                ├── create-featback.dto.ts
+                ├── delete-featback.dto.ts
+                ├── update-featback.dto.ts
+            ├── featback.module.ts
+            ├── featback.resolver.spec.ts
+            ├── featback.resolver.ts
+            ├── featback.service.spec.ts
+            ├── featback.service.ts
+        └── 📁filters
+            ├── filters.module.ts
+            ├── filters.resolver.spec.ts
+            ├── filters.resolver.ts
+            ├── filters.service.spec.ts
+            ├── filters.service.ts
         └── 📁level
             └── 📁dto
-                └── createLevel.dto.ts
-                └── pag-level-res.dto.ts
+                ├── createLevel.dto.ts
+                ├── pag-level-res.dto.ts
+                ├── updateLevel.dto.ts
             └── 📁interface
-                └── level.interface.ts
-                └── responseData.interface.ts
-            └── level.module.ts
-            └── level.resolver.spec.ts
-            └── level.resolver.ts
-            └── level.service.spec.ts
-            └── level.service.ts
+                ├── level.interface.ts
+                ├── responseData.interface.ts
             └── 📁schema
-                └── level.schema.ts
-        └── main.ts
+                ├── level.schema.ts
+            ├── level.module.ts
+            ├── level.resolver.spec.ts
+            ├── level.resolver.ts
+            ├── level.service.spec.ts
+            ├── level.service.ts
         └── 📁password
             └── 📁dto
-                └── chengePassword.dto.ts
+                ├── chengePassword.dto.ts
             └── 📁interface
-                └── password.interface.ts
-            └── password.module.ts
-            └── password.resolver.spec.ts
-            └── password.resolver.ts
-            └── password.service.spec.ts
-            └── password.service.ts
+                ├── password.interface.ts
+            ├── password.module.ts
+            ├── password.resolver.spec.ts
+            ├── password.resolver.ts
+            ├── password.service.spec.ts
+            ├── password.service.ts
         └── 📁products
             └── 📁dto
-                └── createProductos.dto.ts
-                └── pag-product-res.dto.ts
-                └── updateProducts.dto.ts
+                ├── createProductos.dto.ts
+                ├── pag-product-res.dto.ts
+                ├── updateProducts.dto.ts
             └── 📁interface
-                └── product.interface.ts
-                └── responseData.interface.ts
-            └── products.module.ts
-            └── products.resolver.spec.ts
-            └── products.resolver.ts
-            └── products.service.spec.ts
-            └── products.service.ts
+                ├── product.interface.ts
+                ├── responseData.interface.ts
             └── 📁schema
-                └── product.schema.ts
-        └── schema.gql
+                ├── featback.schema.ts
+                ├── product.schema.ts
+                ├── star.schema.ts
+            ├── products.module.ts
+            ├── products.resolver.spec.ts
+            ├── products.resolver.ts
+            ├── products.service.spec.ts
+            ├── products.service.ts
+        └── 📁qualification
+            └── 📁dto
+                ├── productDetails.dto.ts
+            ├── qualification.module.ts
+            ├── qualification.resolver.spec.ts
+            ├── qualification.resolver.ts
+            ├── qualification.service.spec.ts
+            ├── qualification.service.ts
         └── 📁seeders
-            └── initialData.seeders.ts
-            └── seed.ts
-            └── seeders.module.ts
-            └── seeders.service.spec.ts
-            └── seeders.service.ts
-            └── seeders.spec.ts
+            ├── initialData.seeders.ts
+            ├── seed.ts
+            ├── seeders.module.ts
+            ├── seeders.service.spec.ts
+            ├── seeders.service.ts
+            ├── seeders.spec.ts
         └── 📁sign
             └── 📁dto
-                └── sign.dto.ts
+                ├── sign.dto.ts
             └── 📁guard
-                └── auth.guard.guard.guard.spec.ts
-                └── auth.guard.guard.guard.ts
+                ├── auth.guard.guard.guard.spec.ts
+                ├── auth.guard.guard.guard.ts
             └── 📁interface
-                └── responseSing.interface.ts
-                └── sign.interface.ts
-            └── sign.module.ts
-            └── sign.resolver.spec.ts
-            └── sign.resolver.ts
-            └── sign.service.spec.ts
-            └── sign.service.ts
+                ├── responseSing.interface.ts
+                ├── sign.interface.ts
+            ├── sign.module.ts
+            ├── sign.resolver.spec.ts
+            ├── sign.resolver.ts
+            ├── sign.service.spec.ts
+            ├── sign.service.ts
         └── 📁subscribe
             └── 📁dto
-                └── create-subscription.dto.ts
-                └── pag-subs-res.dto.ts
+                ├── create-subscription.dto.ts
+                ├── pag-subs-res.dto.ts
             └── 📁interface
-                └── responseData.interface.ts
-                └── subscribe.interface.ts
+                ├── responseData.interface.ts
+                ├── subscribe.interface.ts
             └── 📁schema
-                └── subscribe.schema.ts
-            └── subscribe.module.ts
-            └── subscribe.resolver.spec.ts
-            └── subscribe.resolver.ts
-            └── subscribe.service.spec.ts
-            └── subscribe.service.ts
+                ├── subscribe.schema.ts
+            ├── subscribe.module.ts
+            ├── subscribe.resolver.spec.ts
+            ├── subscribe.resolver.ts
+            ├── subscribe.service.spec.ts
+            ├── subscribe.service.ts
         └── 📁user
             └── 📁dto
-                └── createUser.dto.ts
-                └── pag-user-res.dto.ts
-                └── updateUser.dto.ts
+                ├── createUser.dto.ts
+                ├── createUserUp.dto.ts
+                ├── pag-user-res.dto.ts
+                ├── updateUser.dto.ts
             └── 📁interface
-                └── responseData.interface.ts
-                └── user.interface.ts
+                ├── responseData.interface.ts
+                ├── user.interface.ts
             └── 📁schema
-                └── user.schema.ts
-            └── user.module.ts
-            └── user.resolver.spec.ts
-            └── user.resolver.ts
-            └── user.service.spec.ts
-            └── user.service.ts
+                ├── user.schema.ts
+            ├── user.module.ts
+            ├── user.resolver.spec.ts
+            ├── user.resolver.ts
+            ├── user.service.spec.ts
+            ├── user.service.ts
+        ├── app.controller.spec.ts
+        ├── app.module.ts
+        ├── main.ts
+        ├── schema.gql
     └── 📁test
-        └── app.e2e-spec.ts
-        └── jest-e2e.json
+        ├── app.e2e-spec.ts
+        ├── jest-e2e.json
     └── 📁types
-        └── response.type.ts
+        └── 📁express
+            ├── index.types.ts
+        ├── response.type.ts
     └── 📁utils
-        └── generatePassword.util.ts
-        └── info.util.ts
-        └── navegation.util.ts
-        └── response.util.ts
-        └── results.util.ts
-    └── .env
-    └── .gitignore
-    └── .prettierrc
-    └── constants.ts
-    └── docker-compose.yml
-    └── Dockerfile
-    └── eslint.config.mjs
-    └── nest-cli.json
-    └── package-lock.json
-    └── package.json
-    └── README.md
-    └── tsconfig.build.json
-    └── tsconfig.json
+        ├── generatePassword.util.ts
+        ├── info.util.ts
+        ├── navegation.util.ts
+        ├── response.util.ts
+        ├── results.util.ts
+    ├── .env
+    ├── .gitignore
+    ├── .prettierrc
+    ├── constants.ts
+    ├── docker-compose.yml
+    ├── Dockerfile
+    ├── eslint.config.mjs
+    ├── nest-cli.json
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    ├── tsconfig.build.json
+    ├── tsconfig.json
     └── work-tree.md
 ```
