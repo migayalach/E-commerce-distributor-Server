@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Level } from './schema/level.schema';
 import { Model } from 'mongoose';
 import { CreateLevelDto } from './dto/createLevel.dto';
+import { UpdateLevelDto } from './dto/updateLevel.dto';
 import { ApolloError } from 'apollo-server-express';
 import { response } from '@utils/response.util';
 import { clearLevel, clearObjLevel } from 'helpers/clearData.helpers';
@@ -91,6 +92,50 @@ export class LevelService {
       throw new ApolloError(
         'An unexpected error occurred while searching the level.',
         'INTERNAL_SERVER_ERROR',
+      );
+    }
+  }
+
+  async updateLevel(dataLevel: UpdateLevelDto): Promise<ResLevel> {
+    try {
+      await this.getIdLevel(dataLevel.idLevel);
+      await this.levelModel.findByIdAndUpdate(dataLevel.idLevel, {
+        nameLevel: dataLevel.nameLevel,
+      });
+      return {
+        message: 'User update successfully.',
+        code: '200',
+        value: 'update-user',
+        info: await this.getIdLevel(dataLevel.idLevel),
+      };
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while updating the level.',
+        'INTERNAL_ERROR',
+      );
+    }
+  }
+
+  async deleteLevel(idLevel: string): Promise<ResLevel> {
+    try {
+      const data = await this.getIdLevel(idLevel);
+      await this.levelModel.findByIdAndDelete(idLevel);
+      return {
+        message: 'Level deleted successfully',
+        code: '201',
+        value: 'delete-level',
+        info: data,
+      };
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while deleting the level.',
+        'INTERNAL_ERROR',
       );
     }
   }
