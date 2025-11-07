@@ -17,6 +17,8 @@ import { DetailModule } from './detail/detail.module';
 import { SignModule } from './sign/sign.module';
 import { EmailModule } from './email/email.module';
 import { FiltersModule } from './filters/filters.module';
+import { FeatbackModule } from './featback/featback.module';
+import { QualificationModule } from './qualification/qualification.module';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { FiltersModule } from './filters/filters.module';
       playground: true,
       sortSchema: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      path: '/distributor/graphql', //ADDED NEW PREFIX TO POSTMAN
       debug: true,
       introspection: true, //VIEW PLAYGROUND
       context: ({ req, res }: { req: Request; res: Response }) => ({
@@ -51,6 +54,8 @@ import { FiltersModule } from './filters/filters.module';
     SignModule,
     EmailModule,
     FiltersModule,
+    FeatbackModule,
+    QualificationModule,
   ],
   controllers: [],
   providers: [],
