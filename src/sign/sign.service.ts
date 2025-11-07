@@ -186,4 +186,7 @@ export class SignService {
       );
     }
   }
+
+  // This function will destroy the token between a register in Database.
+  signOut() {}
 }
