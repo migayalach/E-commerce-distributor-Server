@@ -88,6 +88,17 @@ export class UserService {
     return;
   }
 
+  async existUser(item: string, idSeach: string): Promise<string> {
+    const userId = await this.userModel
+      .find({ [item]: new Types.ObjectId(idSeach) })
+      .select('-__v');
+
+    if (!userId.length) {
+      throw new ApolloError('This user does not exist.', 'NOT_FOUND');
+    }
+    return userId[0]._id as string;
+  }
+
   async getAllUsers(page: number) {
     try {
       const dataUser: DataOriginUser[] = await this.userModel
