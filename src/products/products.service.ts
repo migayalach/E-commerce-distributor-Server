@@ -16,6 +16,7 @@ import { ResProduct } from '@interface/data.info.interface';
 import { clearDataProduct } from '../../helpers/clearData.helpers';
 import { EmailService } from 'src/email/email.service';
 import { UserService } from 'src/user/user.service';
+import { ActionAddDelete } from 'enum/options.enum';
 
 @Injectable()
 export class ProductsService {
@@ -25,6 +26,42 @@ export class ProductsService {
     private emailService: EmailService,
     private userService: UserService,
   ) {}
+
+  async actionProductFav(
+    idProduct: string,
+    action: ActionAddDelete,
+    idUser: string,
+  ): Promise<void> {
+    if (action === ActionAddDelete.add) {
+      await this.productModel.findByIdAndUpdate(idProduct, {
+        $push: {
+          usersFavorite: new Types.ObjectId(idUser),
+        },
+      });
+    } else if (action === ActionAddDelete.delete) {
+      await this.productModel.findByIdAndUpdate(idProduct, {
+        $pull: { usersFavorite: new Types.ObjectId(idUser) },
+      });
+    }
+  }
+
+  async actionProductCart(
+    idProduct: string,
+    action: ActionAddDelete,
+    idUser: string,
+  ): Promise<void> {
+    if (action === ActionAddDelete.add) {
+      await this.productModel.findByIdAndUpdate(idProduct, {
+        $push: {
+          usersCart: new Types.ObjectId(idUser),
+        },
+      });
+    } else if (action === ActionAddDelete.delete) {
+      await this.productModel.findByIdAndUpdate(idProduct, {
+        $pull: { usersCart: new Types.ObjectId(idUser) },
+      });
+    }
+  }
 
   async getAllListProducts(): Promise<Types.ObjectId[]> {
     const dataProduct: DataOriginProduct[] = await this.productModel
