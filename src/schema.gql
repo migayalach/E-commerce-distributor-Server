@@ -54,6 +54,7 @@ type CartModelGQL {
 type Category {
   _id: ID!
   nameCategory: String!
+  stateCategory: Boolean!
 }
 
 type CategoryResponse {
@@ -173,6 +174,7 @@ type Mutation {
   refreshToken: String!
   removeCategory(idCategory: String!): CategoryResponse!
   removeLevel(idLevel: String!): LevelResponse!
+  restoredCategory(idCategory: String!): CategoryResponse!
   up(dataSignUp: SignUpDto!): SignResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
   updateFeatbck(dataFeatback: UpdateFeatbacktDto!): ResponseInfo!
@@ -255,7 +257,7 @@ type Query {
   getAllIdFavorite(idFavorite: String!, page: Int): PagFavoriteResponse!
   getAllLevel(page: Int): PagLevelResponse!
   getAllListFavorite(idFavorite: String!): [FavoriteModelGQL!]!
-  getCategory(page: Int): PagCategoryResponse!
+  getCategory(page: Int, stateCategory: Boolean!): PagCategoryResponse!
   getIdCategory(idCategory: String!): Category!
   getIdDetail(idBuy: String!, page: Int): PagDetailResponse!
   getIdProduct(idProduct: String!): ProductModel!
