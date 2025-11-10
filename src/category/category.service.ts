@@ -9,11 +9,14 @@ import { ResCategory } from '@interface/data.info.interface';
 import { clearCategory, clearObjCategory } from 'helpers/clearData.helpers';
 import { DataCategory } from './interface/category.interface';
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
+import { Product } from 'src/products/schema/product.schema';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectModel(Category.name) private categoryModel: Model<Category>,
+    @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
   async thereIsCategory(nameCategory: string): Promise<void> {
@@ -36,9 +39,11 @@ export class CategoryService {
     return clearObjCategory(data);
   }
 
-  async getAllCategories(page: number) {
+  async getAllCategories(page: number, stateCategory: boolean) {
     try {
-      const data = await this.categoryModel.find().select('-__v');
+      const data = await this.categoryModel
+        .find({ stateCategory })
+        .select('-__v');
       return response(clearCategory(data), page);
     } catch (error) {
       if (error instanceof ApolloError) {
@@ -114,10 +119,33 @@ export class CategoryService {
 
   async deleteCategory(idCategory: string): Promise<ResCategory> {
     try {
+      await this.thereIsIdCategory(idCategory);
+      const stateCategoryAndProduct = await this.productModel.find({
+        idCategory: new Types.ObjectId(idCategory),
+      });
+
+      if (!stateCategoryAndProduct.length) {
+        await this.categoryModel.findByIdAndDelete(
+          new Types.ObjectId(idCategory),
+        );
+      } else {
+        await this.categoryModel.updateOne(
+          {
+            _id: new Types.ObjectId(idCategory),
+          },
+          { stateCategory: false },
+        );
+        await this.productModel.updateMany(
+          {
+            idCategory: new Types.ObjectId(idCategory),
+          },
+          { $set: { state: false } },
+        );
+      }
       const data = await this.thereIsIdCategory(idCategory);
-      await this.categoryModel.findByIdAndDelete(idCategory);
       return {
-        message: 'Category delete successfully.',
+        message:
+          'The category has been successfully deactivated and will be removed in 30 days.',
         code: '200',
         value: 'delete-category',
         info: clearObjCategory(data),
@@ -127,7 +155,40 @@ export class CategoryService {
         throw error;
       }
       throw new ApolloError(
-        'An unexpected error occurred while delete the category.',
+        'An unexpected error occurred while delete the ca11tegory.',
+        'INTERNAL_ERROR',
+      );
+    }
+  }
+
+  async restoreCategory(idCategory: string): Promise<ResCategory> {
+    try {
+      await this.thereIsIdCategory(idCategory);
+      await this.categoryModel.updateOne(
+        {
+          _id: new Types.ObjectId(idCategory),
+        },
+        { stateCategory: true },
+      );
+      await this.productModel.updateMany(
+        {
+          idCategory: new Types.ObjectId(idCategory),
+        },
+        { $set: { state: true } },
+      );
+      const data = await this.thereIsIdCategory(idCategory);
+      return {
+        message: 'The category has been successfully activated and restored.',
+        code: '200',
+        value: 'restored-category',
+        info: clearObjCategory(data),
+      };
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while restored the ca11tegory.',
         'INTERNAL_ERROR',
       );
     }
