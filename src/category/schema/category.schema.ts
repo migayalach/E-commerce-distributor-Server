@@ -11,6 +11,10 @@ export class Category extends Document {
   @Prop({ required: true })
   @Field()
   nameCategory: string;
+
+  @Prop({ default: true })
+  @Field()
+  stateCategory: boolean;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
