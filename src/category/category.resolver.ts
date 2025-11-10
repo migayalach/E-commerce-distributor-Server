@@ -26,8 +26,10 @@ export class CategoryResolver {
   @Query(() => PagCategoryResponse)
   async getCategory(
     @Args('page', { type: () => Int, nullable: true }) page: number = 1,
+    @Args('stateCategory', { type: () => Boolean, nullable: false })
+    stateCategory: boolean = true,
   ): Promise<Response> {
-    return await this.categoryService.getAllCategories(page);
+    return await this.categoryService.getAllCategories(page, stateCategory);
   }
 
   @UseGuards(AuthGuard)
@@ -54,5 +56,14 @@ export class CategoryResolver {
     idCategory: string,
   ): Promise<ResCategory> {
     return await this.categoryService.deleteCategory(idCategory);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => CategoryResponse)
+  async restoredCategory(
+    @Args('idCategory', { type: () => String, nullable: false })
+    idCategory: string,
+  ): Promise<ResCategory> {
+    return await this.categoryService.restoreCategory(idCategory);
   }
 }
