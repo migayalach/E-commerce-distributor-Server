@@ -17,6 +17,7 @@ import { clearDataProduct } from '../../helpers/clearData.helpers';
 import { EmailService } from 'src/email/email.service';
 import { UserService } from 'src/user/user.service';
 import { ActionAddDelete } from 'enum/options.enum';
+import { FeatbackService } from 'src/featback/featback.service';
 
 @Injectable()
 export class ProductsService {
@@ -25,6 +26,7 @@ export class ProductsService {
     private categoryService: CategoryService,
     private emailService: EmailService,
     private userService: UserService,
+    private feedbackService: FeatbackService,
   ) {}
 
   async actionProductFav(
@@ -160,6 +162,7 @@ export class ProductsService {
           nameProduct: dataProduct.nameProduct.trim(),
         })
         .select('-__v');
+
       if (existName.length) {
         if (existName[0].nameProduct === dataProduct.nameProduct) {
           throw new ApolloError(
@@ -169,14 +172,27 @@ export class ProductsService {
         }
       }
       await this.categoryService.thereIsIdCategory(dataProduct.idCategory);
-      const data = new this.productModel({
+      let data = new this.productModel({
         ...dataProduct,
         idCategory: new Types.ObjectId(dataProduct.idCategory),
       });
+
+      const feedbackData = await this.feedbackService.createdFeedbackToProduct(
+        String(data._id),
+      );
+
+      data = new this.productModel({
+        ...dataProduct,
+        idCategory: new Types.ObjectId(dataProduct.idCategory),
+        idFeatback: new Types.ObjectId(feedbackData),
+      });
+
       await data.save();
+
       const productData: DataProductRes = await this.getIdProduct(
         String(data._id),
       );
+
       return {
         message: 'Product create successfully.',
         code: '201',
