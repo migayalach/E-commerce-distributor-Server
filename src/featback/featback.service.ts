@@ -1,6 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { DeleteFeatbacktDto } from './dto/delete-featback.dto';
-import { UpdateFeatbacktDto } from './dto/update-featback.dto';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { AddFeatbacktDto } from './dto/create-featback.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Featback } from 'src/products/schema/featback.schema';
@@ -8,12 +6,18 @@ import { Model, Types } from 'mongoose';
 import { ApolloError } from 'apollo-server-express';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { ProductsService } from 'src/products/products.service';
+import { UserService } from 'src/user/user.service';
+import { response } from '@utils/response.util';
+import { DataFeedback } from './interface/feedback.interface';
+import { DeleteFeatbacktDto } from './dto/delete-featback.dto';
 
 @Injectable()
 export class FeatbackService {
   constructor(
     @InjectModel(Featback.name) private feadbackModel: Model<Featback>,
-    // private productService: ProductsService,
+    @Inject(forwardRef(() => ProductsService))
+    private productsService: ProductsService,
+    private userService: UserService,
   ) {}
 
   async enableFeadback(idFeedback: string, idUser: string): Promise<void> {
@@ -77,7 +81,21 @@ export class FeatbackService {
         .select('-_id listFeedback idProduct');
 
       if (data) {
-        const productID = 1;
+        await this.productsService.getIdProduct(String(data.idProduct));
+        await this.feadbackModel.updateOne(
+          {
+            _id: dataFeatback.idFeedback,
+            'listFeedback.idUser': new Types.ObjectId(dataFeatback.idUser),
+          },
+          {
+            $set: { 'listFeedback.$.featback': dataFeatback.featback },
+          },
+        );
+      } else {
+        throw new ApolloError(
+          'Sorry, this product does not available to add your feedback.',
+          'NOT_FOUND',
+        );
       }
       return {
         message: 'Featback adding successfully.',
@@ -95,79 +113,84 @@ export class FeatbackService {
     }
   }
 
-  // async updateFeatback(
-  //   dataFeatback: UpdateFeatbacktDto,
-  // ): Promise<RespInfoBase> {
-  //   try {
-  //     // const data = await this.productModel.updateOne(
-  //     //   {
-  //     //     _id: dataFeatback.idProduct,
-  //     //     'featback._id': dataFeatback.idFeatback,
-  //     //   },
-  //     //   {
-  //     //     $set: {
-  //     //       'featback.$.featback': dataFeatback.featback,
-  //     //     },
-  //     //   },
-  //     // );
-  //     // if (data.modifiedCount === 0) {
-  //     //   throw new ApolloError(
-  //     //     'Feedback not found or nothing was updated.',
-  //     //     'NOT_FOUND',
-  //     //   );
-  //     // }
-  //     return {
-  //       message: 'Feedback updated successfully.',
-  //       code: '200',
-  //       value: 'updated-feedback',
-  //     };
-  //   } catch (error) {
-  //     if (error instanceof ApolloError) {
-  //       throw error;
-  //     }
-  //     throw new ApolloError(
-  //       'An unexpected error occurred while updating the feedback.',
-  //       'INTERNAL_ERROR',
-  //     );
-  //   }
-  // }
+  async getAllFeedback(idFeedback: string, page: number) {
+    try {
+      const data = await this.feadbackModel
+        .findById(new Types.ObjectId(idFeedback))
+        .select('-_id listFeedback');
 
-  // async removeFeatback(
-  //   dataFeatback: DeleteFeatbacktDto,
-  // ): Promise<RespInfoBase> {
-  //   try {
-  //     // const data = await this.productModel.updateOne(
-  //     //   { _id: dataFeatback.idProduct },
-  //     //   {
-  //     //     $pull: {
-  //     //       featback: {
-  //     //         _id: dataFeatback.idFeatback,
-  //     //       },
-  //     //     },
-  //     //   },
-  //     // );
+      const information: DataFeedback[] = [];
+      if (data) {
+        for (let i = 0; i < data?.listFeedback.length; i++) {
+          if (data.listFeedback[i].featback.length > 1) {
+            const { name, lastName, email, profilePicture } =
+              await this.userService.getIdUser(
+                String(data.listFeedback[i].idUser),
+              );
 
-  //     // if (data.modifiedCount === 0) {
-  //     //   throw new ApolloError(
-  //     //     'Feedback not found or already removed.',
-  //     //     'NOT_FOUND',
-  //     //   );
-  //     // }
+            const item = {
+              idUser: String(data.listFeedback[i].idUser),
+              name,
+              lastName,
+              email,
+              profilePicture,
+              feedback: data.listFeedback[i].featback,
+            };
 
-  //     return {
-  //       message: 'Feedback deleted successfully.',
-  //       code: '200',
-  //       value: 'delete-feedback',
-  //     };
-  //   } catch (error) {
-  //     if (error instanceof ApolloError) throw error;
+            information.push(item);
+          }
+        }
+      }
+      return response(information, page);
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while loading the feedback.',
+        'INTERNAL_SERVER_ERROR',
+      );
+    }
+  }
 
-  //     throw new ApolloError(
-  //       'An unexpected error occurred while deleting the feedback.',
-  //       'INTERNAL_ERROR',
-  //     );
-  //   }
-  // }
+  async deleteFeedbackByID(
+    dataFeatback: DeleteFeatbacktDto,
+  ): Promise<RespInfoBase> {
+    try {
+      const data = await this.feadbackModel
+        .findById(new Types.ObjectId(dataFeatback.idFeedback))
+        .select('-_id listFeedback idProduct');
 
-  // getFeedbacksAll() {}
+      if (data) {
+        await this.productsService.getIdProduct(String(data.idProduct));
+        await this.feadbackModel.updateOne(
+          {
+            _id: dataFeatback.idFeedback,
+            'listFeedback.idUser': new Types.ObjectId(dataFeatback.idUser),
+          },
+          {
+            $set: { 'listFeedback.$.featback': '' },
+          },
+        );
+      } else {
+        throw new ApolloError(
+          'Sorry, this product does not available to removed your feedback.',
+          'NOT_FOUND',
+        );
+      }
+      return {
+        message: 'Featback removed successfully.',
+        code: '201',
+        value: 'remove-featback',
+      };
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while deleting your feedback.',
+        'INTERNAL_SERVER_ERROR',
+      );
+    }
+  }
 }
