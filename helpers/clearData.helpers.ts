@@ -74,6 +74,7 @@ export const clearDataProduct = (
     _id: product._id.toString(),
     idCategory: category._id,
     idFeatback: product.idFeatback.toString(),
+    idQualification: product.idQualification.toString(),
     nameCategory: category.nameCategory,
     nameProduct: product.nameProduct,
     price: product.price,
