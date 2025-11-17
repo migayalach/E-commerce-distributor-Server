@@ -13,18 +13,24 @@ import {
 import { CartUserList } from 'src/cart/interface/cart.interface';
 import { responseDetail } from '@utils/response.util';
 import { PagDetailResponse } from './dto/pag-detail-res.dto';
+import { FeatbackService } from 'src/featback/featback.service';
+import { QualificationService } from 'src/qualification/qualification.service';
 
 @Injectable()
 export class DetailService {
   constructor(
     private productService: ProductsService,
     private cartService: CartService,
+    private feedbackService: FeatbackService,
+    private qualifactionService: QualificationService,
     @InjectModel(Detail.name) private detailModel: Model<Detail>,
   ) {}
 
-  async getDetailProduc(cartData: CartUserList) {
+  async setDetailProduct(cartData: CartUserList) {
     let sum: number = 0;
     const listProduct: objProductData[] = [];
+    const userId: string = cartData.idUser;
+
     for (let i = 0; i < cartData.listProducts.length; i++) {
       const obj = {
         idProduct: cartData.listProducts[i].idProduct,
@@ -32,17 +38,26 @@ export class DetailService {
         amount: cartData.listProducts[i].amount,
         total: 0,
       };
+
       const infoProduct = await this.productService.getIdProduct(
         cartData.listProducts[i].idProduct.toString(),
       );
+
       obj.price = infoProduct.price;
       obj.total = obj.price * obj.amount;
+
       await this.productService.discountStock(
         obj.idProduct.toString(),
         obj.amount,
       );
       listProduct.push(obj);
       sum += obj.total;
+
+      // TODO ENABLE COMMENT AND QUALIFICATION
+      await this.feedbackService.enableFeadback(
+        infoProduct.idFeatback.toString(),
+        userId,
+      );
     }
     return { listProduct, totalBuy: sum };
   }
@@ -56,7 +71,7 @@ export class DetailService {
           'INTERNAL_SERVER_ERROR',
         );
       }
-      const { listProduct, totalBuy } = await this.getDetailProduc(cartData);
+      const { listProduct, totalBuy } = await this.setDetailProduct(cartData);
       // //! ADD DETAIL AND PRODUCT-DETAIL
       const detailInfo = new this.detailModel({
         idBuy: new Types.ObjectId(idBuy),
