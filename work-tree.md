@@ -5,6 +5,7 @@
     └── 📁enum
         ├── options.enum.ts
     └── 📁github
+        └── 📁workflows
     └── 📁helpers
         ├── auxFunction.helpers.ts
         ├── clearData.helpers.ts
@@ -13,12 +14,15 @@
         ├── info.interface.ts
         ├── response.interface.ts
         ├── response.results.interface.ts
+    └── 📁mocks
     └── 📁models
         ├── buy.model.ts
         ├── cart.model.ts
         ├── detail.model.ts
         ├── favorite.model.ts
+        ├── feedback.model.ts
         ├── product.model.ts
+        ├── qualification.model.ts
         ├── user.model.ts
     └── 📁src
         └── 📁buy
@@ -95,7 +99,10 @@
             └── 📁dto
                 ├── create-featback.dto.ts
                 ├── delete-featback.dto.ts
-                ├── update-featback.dto.ts
+            └── 📁interface
+                ├── feedback.interface.ts
+                ├── pag-feedback-res.dto.ts
+                ├── responseData.interface.ts
             ├── featback.module.ts
             ├── featback.resolver.spec.ts
             ├── featback.resolver.ts
@@ -143,7 +150,7 @@
             └── 📁schema
                 ├── featback.schema.ts
                 ├── product.schema.ts
-                ├── star.schema.ts
+                ├── qualification.schema.ts
             ├── products.module.ts
             ├── products.resolver.spec.ts
             ├── products.resolver.ts
@@ -151,7 +158,12 @@
             ├── products.service.ts
         └── 📁qualification
             └── 📁dto
-                ├── productDetails.dto.ts
+                ├── create-qualification.dto.ts
+                ├── delete-qualification.dto.ts
+                ├── pag-qualification-res.dto.ts
+            └── 📁interface
+                ├── qualification.interface.ts
+                ├── responseData.interface.ts
             ├── qualification.module.ts
             ├── qualification.resolver.spec.ts
             ├── qualification.resolver.ts
@@ -213,6 +225,9 @@
         ├── main.ts
         ├── schema.gql
     └── 📁test
+        └── 📁e2e
+        └── 📁integration
+        └── 📁unit
         ├── app.e2e-spec.ts
         ├── jest-e2e.json
     └── 📁types
