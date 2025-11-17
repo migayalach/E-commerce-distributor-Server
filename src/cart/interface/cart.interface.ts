@@ -13,6 +13,7 @@ export interface DataCartProduct {
 
 export interface CartUserList {
   _id: Types.ObjectId;
+  idUser: string;
   listProducts: DataCartProduct[];
 }
 
