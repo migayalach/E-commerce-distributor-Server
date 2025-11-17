@@ -42,7 +42,17 @@ export class FeatbackService {
             { $push: { listFeedback: detailInfo } },
             { new: true },
           );
+        } else {
+          throw new ApolloError(
+            'Sorry, you could have an only feedback by product.',
+            'NOT_FOUND',
+          );
         }
+      } else {
+        throw new ApolloError(
+          'Sorry, this product does not available.',
+          'NOT_FOUND',
+        );
       }
       return;
     } catch (error) {
