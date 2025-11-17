@@ -9,6 +9,16 @@ registerEnumType(ActionAddDelete, {
   name: 'ActionAddDelete',
 });
 
+export enum ActionComplete {
+  add = 'add',
+  delete = 'delete',
+  update = 'update',
+}
+
+registerEnumType(ActionComplete, {
+  name: 'ActionComplete',
+});
+
 export enum ActionAddUpdate {
   add = 'add',
   update = 'update',
