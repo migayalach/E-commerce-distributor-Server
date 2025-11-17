@@ -36,6 +36,12 @@ input AddFeatbacktDto {
   idUser: ID!
 }
 
+input AddQualificationDto {
+  idQualification: ID!
+  idUser: ID!
+  value: Float!
+}
+
 type BuyModelGQL {
   _id: ID!
   code: String!
@@ -116,6 +122,11 @@ input DeleteFeatbacktDto {
   idUser: ID!
 }
 
+input DeleteQualificationDto {
+  idQualification: ID!
+  idUser: ID!
+}
+
 type DetailModelGQL {
   amount: Float!
   idProduct: ID!
@@ -165,7 +176,6 @@ type Mutation {
   actionCart(dataCart: ActionCartDto!): ResponseInfo!
   actionFavorite(dataFavorite: ActionFavoriteDto!): ResponseInfo!
   addFeatback(dataFeatback: AddFeatbacktDto!): ResponseInfo!
-  addQualification: ResponseInfo!
   changePassword(dataPassword: ChangePasswordDto!): ResponseInfo!
   clearCart(idCart: String!): ResponseInfo!
   createBuy(shoppingList: CreateBuyDto!): ResponseInfo!
@@ -183,12 +193,13 @@ type Mutation {
   refreshToken: String!
   removeCategory(idCategory: String!): CategoryResponse!
   removeLevel(idLevel: String!): LevelResponse!
+  resetQualification(dataQualification: DeleteQualificationDto!): ResponseInfo!
   restoredCategory(idCategory: String!): CategoryResponse!
+  setQualification(dataQualification: AddQualificationDto!): ResponseInfo!
   up(dataSignUp: SignUpDto!): SignResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
   updateLevel(dataLevel: UpdateLevelDto!): LevelResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
-  updateQualification: ResponseInfo!
   updateUser(dataUser: UpdateUserDto!): UserResponse!
 }
 
@@ -233,6 +244,11 @@ type PagProductResponse {
   results: [ProductModel!]!
 }
 
+type PagQualificationResponse {
+  info: Info!
+  results: [QualificationModel!]!
+}
+
 type PagSubsResponse {
   info: Info!
   results: [Subscribe!]!
@@ -263,12 +279,21 @@ type ProductResponse {
   value: String!
 }
 
+type QualificationModel {
+  email: String!
+  idUser: String!
+  lastName: String!
+  name: String!
+  profilePicture: String!
+  value: String!
+}
+
 type Query {
   findCategory(idCategory: String!, page: Int): PagProductResponse!
   findProduct(page: Int, product: String): PagProductResponse!
   getAllBuy(idUser: String!, page: Int): PagBuyResponse!
   getAllCart(idCart: String!): [CartModelGQL!]!
-  getAllFeedback(idFeedback: String!, page: Int): PagFeatbackResponse!
+  getAllFeedback(idQualification: String!, page: Int): PagQualificationResponse!
   getAllIdCart(idCart: String!, page: Int): PagCartResponse!
   getAllIdFavorite(idFavorite: String!, page: Int): PagFavoriteResponse!
   getAllLevel(page: Int): PagLevelResponse!
