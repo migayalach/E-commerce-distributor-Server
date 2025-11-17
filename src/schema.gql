@@ -293,11 +293,12 @@ type Query {
   findProduct(page: Int, product: String): PagProductResponse!
   getAllBuy(idUser: String!, page: Int): PagBuyResponse!
   getAllCart(idCart: String!): [CartModelGQL!]!
-  getAllFeedback(idQualification: String!, page: Int): PagQualificationResponse!
+  getAllFeedback(idFeedback: String!, page: Int): PagFeatbackResponse!
   getAllIdCart(idCart: String!, page: Int): PagCartResponse!
   getAllIdFavorite(idFavorite: String!, page: Int): PagFavoriteResponse!
   getAllLevel(page: Int): PagLevelResponse!
   getAllListFavorite(idFavorite: String!): [FavoriteModelGQL!]!
+  getAllQualification(idQualification: String!, page: Int): PagQualificationResponse!
   getCategory(page: Int, stateCategory: Boolean!): PagCategoryResponse!
   getIdCategory(idCategory: String!): Category!
   getIdDetail(idBuy: String!, page: Int): PagDetailResponse!
