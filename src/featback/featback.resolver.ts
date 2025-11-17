@@ -1,37 +1,36 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FeatbackService } from './featback.service';
 import { AddFeatbacktDto } from './dto/create-featback.dto';
-// import { UpdateFeatbacktDto } from './dto/update-featback.dto';
-// import { DeleteFeatbacktDto } from './dto/delete-featback.dto';
 import { ResponseInfo } from '@interface/response.interface';
 import { RespInfoBase } from '@interface/data.info.interface';
+import { PagFeatbackResponse } from './interface/pag-feedback-res.dto';
+import { Response } from '@interface/response.results.interface';
+import { DeleteFeatbacktDto } from './dto/delete-featback.dto';
 
 @Resolver('Featback')
 export class FeatbackResolver {
   constructor(private readonly featbackService: FeatbackService) {}
 
   @Mutation(() => ResponseInfo)
-  addFeatback(
+  async addFeatback(
     @Args('dataFeatback') dataFeatback: AddFeatbacktDto,
   ): Promise<RespInfoBase> {
-    return this.featbackService.addFeactback(dataFeatback);
+    return await this.featbackService.addFeactback(dataFeatback);
   }
 
-  // @Mutation(() => ResponseInfo)
-  // updateFeatbck(
-  //   @Args('dataFeatback') dataFeatback: UpdateFeatbacktDto,
-  // ): Promise<RespInfoBase> {
-  //   return this.featbackService.updateFeatback(dataFeatback);
-  // }
+  @Mutation(() => ResponseInfo)
+  async deleteFeedbackByID(
+    @Args('dataFeatback') dataFeatback: DeleteFeatbacktDto,
+  ): Promise<RespInfoBase> {
+    return await this.featbackService.deleteFeedbackByID(dataFeatback);
+  }
 
-  // @Mutation(() => ResponseInfo)
-  // deleteFeatback(
-  //   @Args('dataFeatback') dataFeatback: DeleteFeatbacktDto,
-  // ): Promise<RespInfoBase> {
-  //   return this.featbackService.removeFeatback(dataFeatback);
-  // }
-
-  // @Query(() => ResponseInfo)
-  // getAllFeedbacks() {
-  // }
+  @Query(() => PagFeatbackResponse)
+  async getAllFeedback(
+    @Args('idFeedback', { type: () => String, nullable: false })
+    idFeedback: string,
+    @Args('page', { type: () => Int, nullable: true }) page: number = 1,
+  ): Promise<Response> {
+    return await this.featbackService.getAllFeedback(idFeedback, page);
+  }
 }
