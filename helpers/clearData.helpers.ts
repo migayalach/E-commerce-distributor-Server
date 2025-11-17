@@ -19,9 +19,10 @@ export const clearSubs = (data: DataSubs[]) => {
 };
 
 export const clearCategory = (data: DataCategory[]) => {
-  const response = data.map(({ _id, nameCategory }) => ({
+  const response = data.map(({ _id, nameCategory, stateCategory }) => ({
     _id: parseIdObject(_id),
     nameCategory,
+    stateCategory,
   }));
   return response;
 };
@@ -29,13 +30,16 @@ export const clearCategory = (data: DataCategory[]) => {
 export const clearObjCategory = ({
   _id,
   nameCategory,
+  stateCategory,
 }: {
   _id: string;
   nameCategory: string;
+  stateCategory: boolean;
 }) => {
   const obj = {
     _id: parseIdObject(_id),
     nameCategory,
+    stateCategory,
   };
   return obj;
 };
@@ -69,6 +73,7 @@ export const clearDataProduct = (
   const data = {
     _id: product._id.toString(),
     idCategory: category._id,
+    idFeatback: product.idFeatback.toString(),
     nameCategory: category.nameCategory,
     nameProduct: product.nameProduct,
     price: product.price,
