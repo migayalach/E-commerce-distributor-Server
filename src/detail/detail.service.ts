@@ -53,9 +53,13 @@ export class DetailService {
       listProduct.push(obj);
       sum += obj.total;
 
-      // TODO ENABLE COMMENT AND QUALIFICATION
       await this.feedbackService.enableFeadback(
         infoProduct.idFeatback.toString(),
+        userId,
+      );
+
+      await this.qualifactionService.enableQualification(
+        infoProduct.idQualification.toString(),
         userId,
       );
     }
@@ -72,7 +76,6 @@ export class DetailService {
         );
       }
       const { listProduct, totalBuy } = await this.setDetailProduct(cartData);
-      // //! ADD DETAIL AND PRODUCT-DETAIL
       const detailInfo = new this.detailModel({
         idBuy: new Types.ObjectId(idBuy),
         listProduct,
