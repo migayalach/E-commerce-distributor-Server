@@ -28,7 +28,7 @@ export class QualificationResolver {
   }
 
   @Query(() => PagQualificationResponse)
-  async getAllFeedback(
+  async getAllQualification(
     @Args('idQualification', { type: () => String, nullable: false })
     idQualification: string,
     @Args('page', { type: () => Int, nullable: true }) page: number = 1,
