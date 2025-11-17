@@ -31,8 +31,8 @@ input ActionFavoriteDto {
 }
 
 input AddFeatbacktDto {
-  featback: String!
-  idProduct: ID!
+  featback: String
+  idFeedback: ID!
   idUser: ID!
 }
 
@@ -112,8 +112,8 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 input DeleteFeatbacktDto {
-  idFeatback: ID
-  idProduct: ID!
+  idFeedback: ID!
+  idUser: ID!
 }
 
 type DetailModelGQL {
@@ -131,6 +131,15 @@ type FavoriteModelGQL {
   nameProduct: String!
   price: Float!
   stock: Float!
+}
+
+type FeedbackModel {
+  email: String!
+  feedback: String!
+  idUser: String!
+  lastName: String!
+  name: String!
+  profilePicture: String!
 }
 
 type Info {
@@ -166,7 +175,7 @@ type Mutation {
   createSubscribe(dataInput: CreateSubscriptionDto!): SubscribeResponse!
   createUser(dataUser: CreateUserDto!): UserResponse!
   deleleItemCart(idCart: String!, idProduct: String!): ResponseInfo!
-  deleteFeatback(dataFeatback: DeleteFeatbacktDto!): ResponseInfo!
+  deleteFeedbackByID(dataFeatback: DeleteFeatbacktDto!): ResponseInfo!
   deleteProduct(idProduct: String!): ProductResponse!
   deleteSubscribe(email: String!): SubscribeResponse!
   deleteUser(idUser: String!): UserResponse!
@@ -177,7 +186,6 @@ type Mutation {
   restoredCategory(idCategory: String!): CategoryResponse!
   up(dataSignUp: SignUpDto!): SignResponse!
   updateCategory(infoCategory: UpdateCategoryDto!): CategoryResponse!
-  updateFeatbck(dataFeatback: UpdateFeatbacktDto!): ResponseInfo!
   updateLevel(dataLevel: UpdateLevelDto!): LevelResponse!
   updateProduct(dataPruduct: UpdateProductDto!): ProductResponse!
   updateQualification: ResponseInfo!
@@ -210,6 +218,11 @@ type PagFavoriteResponse {
   results: [FavoriteModelGQL!]!
 }
 
+type PagFeatbackResponse {
+  info: Info!
+  results: [FeedbackModel!]!
+}
+
 type PagLevelResponse {
   info: Info!
   results: [Level!]!
@@ -233,10 +246,12 @@ type PagUserResponse {
 type ProductModel {
   _id: ID!
   idCategory: ID!
+  idFeatback: ID!
   imageProduct: [String!]!
   nameCategory: String!
   nameProduct: String!
   price: Float!
+  stars: Float!
   state: Boolean
   stock: Float!
 }
@@ -253,6 +268,7 @@ type Query {
   findProduct(page: Int, product: String): PagProductResponse!
   getAllBuy(idUser: String!, page: Int): PagBuyResponse!
   getAllCart(idCart: String!): [CartModelGQL!]!
+  getAllFeedback(idFeedback: String!, page: Int): PagFeatbackResponse!
   getAllIdCart(idCart: String!, page: Int): PagCartResponse!
   getAllIdFavorite(idFavorite: String!, page: Int): PagFavoriteResponse!
   getAllLevel(page: Int): PagLevelResponse!
@@ -310,12 +326,6 @@ type SubscribeResponse {
 input UpdateCategoryDto {
   idCategory: ID!
   nameCategory: String
-}
-
-input UpdateFeatbacktDto {
-  featback: String!
-  idFeatback: ID
-  idProduct: ID!
 }
 
 input UpdateLevelDto {
