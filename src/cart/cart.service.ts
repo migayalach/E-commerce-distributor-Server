@@ -5,18 +5,20 @@ import { Cart } from './schema/cart.schema';
 import { Model, Types } from 'mongoose';
 import { ActionCartDto } from './dto/actionCart.dto';
 import { ApolloError } from 'apollo-server-express';
-import { ActionAddUpdate } from 'enum/options.enum';
+import { ActionAddDelete, ActionAddUpdate } from 'enum/options.enum';
 import { RespInfoBase } from '@interface/data.info.interface';
 import { PagCartResponse } from './dto/pag-cart-res.dto';
 import { CartUserList, DataProductsCart } from './interface/cart.interface';
 import { response } from '@utils/response.util';
 import { clearlistCartProduct } from 'helpers/clearData.helpers';
 import { CartModelGQL } from '@model/cart.model';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class CartService {
   constructor(
     private productService: ProductsService,
+    private userService: UserService,
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
   ) {}
 
@@ -43,7 +45,7 @@ export class CartService {
   async getAllListCartUser(idCart: string) {
     const data: CartUserList | null = await this.cartModel
       .findById(idCart)
-      .select('listProducts');
+      .select('idUser listProducts');
     return data;
   }
 
@@ -96,6 +98,18 @@ export class CartService {
               },
             },
           );
+
+          const idUser = await this.userService.existUser(
+            'idCart',
+            dataCart.idCart,
+          );
+
+          await this.productService.actionProductCart(
+            dataCart.idProduct,
+            ActionAddDelete.add,
+            idUser,
+          );
+
           return {
             message: 'Added product successfully.',
             code: '201',
@@ -119,6 +133,18 @@ export class CartService {
               },
             },
           );
+
+          const idUser = await this.userService.existUser(
+            'idCart',
+            dataCart.idCart,
+          );
+
+          await this.productService.actionProductCart(
+            dataCart.idProduct,
+            ActionAddDelete.delete,
+            idUser,
+          );
+
           return {
             message: 'Remove product successfully.',
             code: '201',
