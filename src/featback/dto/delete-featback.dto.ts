@@ -1,19 +1,13 @@
 import { InputType, Field, ID } from '@nestjs/graphql';
-import { IsEnum, IsNotEmpty } from 'class-validator';
-import { ActionComplete } from 'enum/options.enum';
+import { IsNotEmpty } from 'class-validator';
 
 @InputType()
-export class FeatbacktDto {
-  @Field(() => ID, { nullable: true })
+export class DeleteFeatbacktDto {
+  @Field(() => ID, { nullable: false })
   @IsNotEmpty()
-  idFeatback: string;
+  idFeedback: string;
 
   @Field(() => ID, { nullable: false })
   @IsNotEmpty()
-  idProduct: string;
-
-  @Field(() => ActionComplete)
-  @IsNotEmpty()
-  @IsEnum(ActionComplete)
-  action: ActionComplete;
+  idUser: string;
 }
