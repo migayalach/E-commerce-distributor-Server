@@ -5,11 +5,15 @@ import { ProductsModule } from 'src/products/products.module';
 import { CartModule } from 'src/cart/cart.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Detail, DetailSchema } from './schema/detail.schema';
+import { FeatbackModule } from 'src/featback/featback.module';
+import { QualificationModule } from 'src/qualification/qualification.module';
 
 @Module({
   imports: [
     ProductsModule,
     CartModule,
+    FeatbackModule,
+    QualificationModule,
     MongooseModule.forFeature([{ name: Detail.name, schema: DetailSchema }]),
   ],
   exports: [DetailService],
