@@ -28,9 +28,9 @@ export class ProductsService {
     private emailService: EmailService,
     private userService: UserService,
     @Inject(forwardRef(() => FeatbackService))
-    private readonly feedbackService: FeatbackService,
+    private feedbackService: FeatbackService,
     @Inject(forwardRef(() => QualificationService))
-    private readonly QualificationService: QualificationService,
+    private QualificationService: QualificationService,
   ) {}
 
   async actionProductFav(
