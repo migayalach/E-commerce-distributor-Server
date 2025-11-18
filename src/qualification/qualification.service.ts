@@ -89,14 +89,38 @@ export class QualificationService {
     }
   }
 
-  totalAverage(): number {
-    // let current = 0;
-    // let votesPeople = 0;
-    // current += data.listQualification[i].value;
-    // votesPeople++;
-    // console.log(current / votesPeople);
+  async totalQualificationByID(idQualification: string): Promise<number> {
+    try {
+      const data = await this.qualificationModel
+        .findById(new Types.ObjectId(idQualification))
+        .select('-_id listQualification');
 
-    return 1;
+      if (data) {
+        let totalQualifications = 0;
+        let users = 0;
+
+        data.listQualification.forEach((item) => {
+          if (item.value > 0) {
+            totalQualifications += item.value;
+            users++;
+          }
+        });
+
+        return Math.round(totalQualifications / users);
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while getting the qualifications.',
+        'INTERNAL_ERROR',
+      );
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while searching the qualification.',
+        'INTERNAL_ERROR',
+      );
+    }
   }
 
   async getAllQualifications(idQualification: string, page: number) {
@@ -140,6 +164,7 @@ export class QualificationService {
       );
     }
   }
+
   async setQualification(
     dataQualification: AddQualificationDto,
   ): Promise<RespInfoBase> {
@@ -161,17 +186,26 @@ export class QualificationService {
             $set: { 'listQualification.$.value': dataQualification.value },
           },
         );
-      } else {
-        throw new ApolloError(
-          'Sorry, this product does not available to add your qualification.',
-          'NOT_FOUND',
+
+        const amount = await this.totalQualificationByID(
+          String(dataQualification.idQualification),
         );
+
+        await this.qualificationModel.findByIdAndUpdate(
+          new Types.ObjectId(dataQualification.idQualification),
+          { qualification: amount },
+        );
+
+        return {
+          message: 'Qualification adding successfully.',
+          code: '201',
+          value: 'created-qualification',
+        };
       }
-      return {
-        message: 'Qualification adding successfully.',
-        code: '201',
-        value: 'created-qualification',
-      };
+      throw new ApolloError(
+        'Sorry, this product does not available to add your qualification.',
+        'NOT_FOUND',
+      );
     } catch (error) {
       if (error instanceof ApolloError) {
         throw error;
@@ -204,18 +238,26 @@ export class QualificationService {
             $set: { 'listQualification.$.value': 0 },
           },
         );
-      } else {
-        throw new ApolloError(
-          'Sorry, this product does not available to add your qualification.',
-          'NOT_FOUND',
-        );
-      }
 
-      return {
-        message: 'Qualification removed successfully.',
-        code: '201',
-        value: 'remove-qualification',
-      };
+        const amount = await this.totalQualificationByID(
+          String(dataQualification.idQualification),
+        );
+
+        await this.qualificationModel.findByIdAndUpdate(
+          new Types.ObjectId(dataQualification.idQualification),
+          { qualification: amount },
+        );
+
+        return {
+          message: 'Qualification removed successfully.',
+          code: '201',
+          value: 'remove-qualification',
+        };
+      }
+      throw new ApolloError(
+        'Sorry, this product does not available to add your qualification.',
+        'NOT_FOUND',
+      );
     } catch (error) {
       if (error instanceof ApolloError) {
         throw error;
