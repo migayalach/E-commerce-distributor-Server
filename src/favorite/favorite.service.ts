@@ -13,11 +13,13 @@ import { clearlistFavProduct } from 'helpers/clearData.helpers';
 import { response } from '@utils/response.util';
 import { PagFavoriteResponse } from './dto/pag-favorite-res.dto';
 import { FavoriteModelGQL } from '@model/favorite.model';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class FavoriteService {
   constructor(
     private productService: ProductsService,
+    private userService: UserService,
     @InjectModel(Favorite.name) private favoriteModel: Model<Favorite>,
   ) {}
 
@@ -88,6 +90,7 @@ export class FavoriteService {
         const listProducts = await this.favoriteModel
           .findById(dataProduct.idFavorite)
           .select('-__v');
+
         if (dataProduct.action === ActionAddDelete.add) {
           if (
             listProducts?.listProducts.includes(
@@ -104,6 +107,15 @@ export class FavoriteService {
               listProducts: new Types.ObjectId(dataProduct.idProduct),
             },
           });
+          const idUser = await this.userService.existUser(
+            'idFavorite',
+            dataProduct.idFavorite,
+          );
+          await this.productService.actionProductFav(
+            dataProduct.idProduct,
+            ActionAddDelete.add,
+            idUser,
+          );
           return {
             message: 'Added product successfully.',
             code: '201',
@@ -123,6 +135,15 @@ export class FavoriteService {
           await this.favoriteModel.findByIdAndUpdate(dataProduct.idFavorite, {
             $pull: { listProducts: new Types.ObjectId(dataProduct.idProduct) },
           });
+          const idUser = await this.userService.existUser(
+            'idFavorite',
+            dataProduct.idFavorite,
+          );
+          await this.productService.actionProductFav(
+            dataProduct.idProduct,
+            ActionAddDelete.delete,
+            idUser,
+          );
           return {
             message: 'Remove product successfully.',
             code: '201',
