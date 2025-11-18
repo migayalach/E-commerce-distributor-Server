@@ -8,6 +8,9 @@ export class ProductModel {
   @Field(() => ID)
   idCategory: string;
 
+  @Field(() => ID)
+  idFeatback: string;
+
   @Field()
   nameCategory: string;
 
@@ -20,9 +23,12 @@ export class ProductModel {
   @Field()
   stock: number;
 
-  @Field(() => [String])
-  imageProduct: string[];
+  @Field()
+  stars: number;
 
   @Field(() => Boolean, { nullable: true })
   state: boolean;
+
+  @Field(() => [String])
+  imageProduct: string[];
 }
