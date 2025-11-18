@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './schema/product.schema';
 import { Model, Types } from 'mongoose';
@@ -18,6 +18,7 @@ import { EmailService } from 'src/email/email.service';
 import { UserService } from 'src/user/user.service';
 import { ActionAddDelete } from 'enum/options.enum';
 import { FeatbackService } from 'src/featback/featback.service';
+import { QualificationService } from 'src/qualification/qualification.service';
 
 @Injectable()
 export class ProductsService {
@@ -26,7 +27,10 @@ export class ProductsService {
     private categoryService: CategoryService,
     private emailService: EmailService,
     private userService: UserService,
-    private feedbackService: FeatbackService,
+    @Inject(forwardRef(() => FeatbackService))
+    private readonly feedbackService: FeatbackService,
+    @Inject(forwardRef(() => QualificationService))
+    private readonly QualificationService: QualificationService,
   ) {}
 
   async actionProductFav(
@@ -172,7 +176,7 @@ export class ProductsService {
         }
       }
       await this.categoryService.thereIsIdCategory(dataProduct.idCategory);
-      let data = new this.productModel({
+      const data = new this.productModel({
         ...dataProduct,
         idCategory: new Types.ObjectId(dataProduct.idCategory),
       });
@@ -181,11 +185,14 @@ export class ProductsService {
         String(data._id),
       );
 
-      data = new this.productModel({
-        ...dataProduct,
-        idCategory: new Types.ObjectId(dataProduct.idCategory),
-        idFeatback: new Types.ObjectId(feedbackData),
-      });
+      data.idFeatback = new Types.ObjectId(feedbackData);
+
+      const qualificationData =
+        await this.QualificationService.createdQualificationToProduct(
+          String(data._id),
+        );
+
+      data.idQualification = new Types.ObjectId(qualificationData);
 
       await data.save();
 
