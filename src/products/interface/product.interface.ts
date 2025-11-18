@@ -2,12 +2,14 @@ import { Types } from 'mongoose';
 
 export interface DataProduct {
   idCategory: string;
+  idFeatback: string;
+  idQualification: string;
   nameCategory: string;
   nameProduct: string;
   price: number;
   stock: number;
-  imageProduct: string[];
   state: boolean;
+  imageProduct: string[];
 }
 
 export interface DataOriginProduct extends DataProduct {
