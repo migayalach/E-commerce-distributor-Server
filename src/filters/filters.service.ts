@@ -38,7 +38,11 @@ export class FiltersService {
         const dataCategory = await this.categoryService.getIdCategory(
           dataProduct[i].idCategory.toString(),
         );
-        const infoProduct = clearDataProduct(dataProduct[i], dataCategory);
+        // const qualificationProduct =
+        //   await this.QualificationService.totalQualificationByID(
+        //     String(dataProduct[i].idQualification),
+        //   );
+        const infoProduct = clearDataProduct(dataProduct[i], dataCategory, 10);
         productInfo.push(infoProduct);
       }
       return response(productInfo, page);
@@ -74,7 +78,11 @@ export class FiltersService {
         const dataCategory = await this.categoryService.getIdCategory(
           dataProduct[i].idCategory.toString(),
         );
-        const infoProduct = clearDataProduct(dataProduct[i], dataCategory);
+        // const qualificationProduct =
+        //   await this.QualificationService.totalQualificationByID(
+        //     String(dataProduct[i].idQualification),
+        //   );
+        const infoProduct = clearDataProduct(dataProduct[i], dataCategory, 10);
         productInfo.push(infoProduct);
       }
       return response(productInfo, page);
