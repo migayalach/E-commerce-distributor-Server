@@ -89,6 +89,29 @@ export class QualificationService {
     }
   }
 
+  async getQualificationById(idQualification: string): Promise<number> {
+    try {
+      const data = await this.qualificationModel
+        .findById(new Types.ObjectId(idQualification))
+        .select('-_id qualification');
+      if (data) {
+        return data.qualification;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while loading the infomation about qualification.',
+        'INTERNAL_ERROR',
+      );
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        throw error;
+      }
+      throw new ApolloError(
+        'An unexpected error occurred while searching the infomation about qualification.',
+        'INTERNAL_ERROR',
+      );
+    }
+  }
+
   async totalQualificationByID(idQualification: string): Promise<number> {
     try {
       const data = await this.qualificationModel
@@ -106,7 +129,8 @@ export class QualificationService {
           }
         });
 
-        return Math.round(totalQualifications / users);
+        const total = users === 0 ? 0 : Math.round(totalQualifications / users);
+        return total;
       }
       throw new ApolloError(
         'An unexpected error occurred while getting the qualifications.',
