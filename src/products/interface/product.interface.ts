@@ -8,6 +8,7 @@ export interface DataProduct {
   nameProduct: string;
   price: number;
   stock: number;
+  stars: number;
   state: boolean;
   imageProduct: string[];
 }

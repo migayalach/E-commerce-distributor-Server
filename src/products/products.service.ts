@@ -121,7 +121,17 @@ export class ProductsService {
         const dataCategory = await this.categoryService.getIdCategory(
           dataProduct[i].idCategory.toString(),
         );
-        const infoProduct = clearDataProduct(dataProduct[i], dataCategory);
+
+        const qualificationProduct =
+          await this.QualificationService.totalQualificationByID(
+            String(dataProduct[i].idQualification),
+          );
+
+        const infoProduct = clearDataProduct(
+          dataProduct[i],
+          dataCategory,
+          qualificationProduct,
+        );
         productInfo.push(infoProduct);
       }
       return response(productInfo, page);
@@ -141,13 +151,20 @@ export class ProductsService {
       const dataProduct: DataOriginProduct | null = await this.productModel
         .findById(idProduct)
         .select('-__v');
+
       if (!dataProduct) {
         throw new ApolloError('This product does not exist.', 'NOT_FOUND');
       }
+
       const dataCategory = await this.categoryService.getIdCategory(
         dataProduct.idCategory.toString(),
       );
-      return clearDataProduct(dataProduct, dataCategory);
+
+      const qualificationProduct =
+        await this.QualificationService.getQualificationById(
+          String(dataProduct.idQualification),
+        );
+      return clearDataProduct(dataProduct, dataCategory, qualificationProduct);
     } catch (error) {
       if (error instanceof ApolloError) {
         throw error;

@@ -69,6 +69,7 @@ export const clearObjLevel = ({
 export const clearDataProduct = (
   product: DataOriginProduct,
   category: DataCategory,
+  qualification: number,
 ): DataProductRes => {
   const data = {
     _id: product._id.toString(),
@@ -79,8 +80,9 @@ export const clearDataProduct = (
     nameProduct: product.nameProduct,
     price: product.price,
     stock: product.stock,
-    imageProduct: product.imageProduct,
+    stars: qualification,
     state: product.state,
+    imageProduct: product.imageProduct,
   };
   return data;
 };
