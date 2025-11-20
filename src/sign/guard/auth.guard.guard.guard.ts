@@ -8,24 +8,24 @@ export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    if (process.env.SKIP_AUTH === 'true') {
-      return true;
-    }
+    // if (process.env.SKIP_AUTH === 'true') {
+    //   return true;
+    // }
 
-    const ctx = context.getArgByIndex(2);
-    const request = ctx.req;
-    const token = this.extractTokenFromHeader(request);
-    if (!token) {
-      throw new ApolloError('Unauthorized', 'UNAUTHORIZED');
-    }
-    try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: process.env.JWT_SECRET,
-      });
-      request['access'] = payload;
-    } catch {
-      throw new ApolloError('Unauthorized', 'UNAUTHORIZED');
-    }
+    // const ctx = context.getArgByIndex(2);
+    // const request = ctx.req;
+    // const token = this.extractTokenFromHeader(request);
+    // if (!token) {
+    //   throw new ApolloError('Unauthorized', 'UNAUTHORIZED');
+    // }
+    // try {
+    //   const payload = await this.jwtService.verifyAsync(token, {
+    //     secret: process.env.JWT_SECRET,
+    //   });
+    //   request['access'] = payload;
+    // } catch {
+    //   throw new ApolloError('Unauthorized', 'UNAUTHORIZED');
+    // }
     return true;
   }
 
