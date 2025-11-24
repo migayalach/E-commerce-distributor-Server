@@ -1,4 +1,13 @@
-import { InputType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsDate } from 'class-validator';
 
 @InputType()
-export class BuyInputFilter {}
+export class BuyInputFilterDto {
+  @Field(() => Date, { nullable: false })
+  @IsDate({ message: 'Please introduce date to Start' })
+  dateToStart: Date;
+
+  @Field(() => Date, { nullable: false })
+  @IsDate({ message: 'Please introduce date to End' })
+  dateToEnd: Date;
+}

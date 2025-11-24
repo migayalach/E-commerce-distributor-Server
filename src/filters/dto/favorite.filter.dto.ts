@@ -1,4 +1,8 @@
-import { InputType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+import { LowHighPrice } from 'enum/options.enum';
 
 @InputType()
-export class FavoriteInputFilter {}
+export class FavoriteInputFilterDto {
+  @Field({ nullable: true })
+  orderProductByPrice?: LowHighPrice;
+}
