@@ -54,3 +54,12 @@ export enum OrderName {
 registerEnumType(OrderName, {
   name: 'OrderName',
 });
+
+export enum LowHighPrice {
+  LOW = 'LOW',
+  HIGH = 'HIGH',
+}
+
+registerEnumType(LowHighPrice, {
+  name: 'PriceProduct',
+});
